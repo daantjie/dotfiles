@@ -40,4 +40,12 @@ packages))
     ;; List of packages you wish to be installed:
 (ensure-package-installed
     ;; Essential
-    'evil)			 
+    'evil)
+
+
+
+;;; =============== Essential ===============
+
+;; Evil
+(require 'evil)
+(evil-mode t)
