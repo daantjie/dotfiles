@@ -39,8 +39,11 @@ packages))
 ;;; Installing packages
     ;; List of packages you wish to be installed:
 (ensure-package-installed
-    ;; Essential
-    'evil)
+ ;; Essential
+ 'evil
+ ;; Eyecandy
+ 'darktooth-theme
+ 'solarized-theme)
 
 
 
@@ -66,3 +69,12 @@ packages))
       (insert initial-key))))
 
 (define-key evil-insert-state-map (kbd "j") 'my-jk)
+
+
+;;; =============== Eyecandy ===============
+
+;; Darktooth
+(require 'darktooth-theme)
+
+;; Solarized
+;(require 'solarized-theme)
