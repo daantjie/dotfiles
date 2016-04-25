@@ -79,13 +79,17 @@
 
 ;; --------------- Fonts ---------------
 
-(set-face-attribute 'default nil :font "Inconsolata-13" )
+(set-face-attribute 'default nil :font "Inconsolata-13")
 (set-frame-font "Inconsolata-13" nil t)
 
 ;; --------------- Themes ---------------
 
 ;; Darktooth
 (require 'darktooth-theme)
+(load-theme 'darktooth t)
 
 ;; Solarized
 ;(require 'solarized-theme)
+
+
+(message "init.el has loaded successfully!")
