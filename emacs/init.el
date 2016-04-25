@@ -13,6 +13,7 @@
 (setq package-list '(
 		     ;; Essential
 		     evil
+		     evil-snipe
 		     ;; Eyecandy
 		     darktooth-theme
 		     solarized-theme))
@@ -74,6 +75,12 @@
 (define-key evil-replace-state-map (kbd "j") 'my-jk)
 (define-key evil-insert-state-map (kbd "k") 'my-kj)
 (define-key evil-replace-state-map (kbd "k") 'my-kj)
+
+;; --------------- Evil-Snipe ---------------
+(require 'evil-snipe)
+(evil-snipe-mode 1)
+(setq evil-snipe-repeat-scope 'visible)
+(setq evil-snipe-spillover-scope 'visible)
 
 ;;; =============== Eyecandy ===============
 
