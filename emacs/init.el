@@ -77,6 +77,13 @@
 
 ;;; =============== Eyecandy ===============
 
+;; --------------- Fonts ---------------
+
+(set-face-attribute 'default nil :font "Inconsolata-13" )
+(set-frame-font "Inconsolata-13" nil t)
+
+;; --------------- Themes ---------------
+
 ;; Darktooth
 (require 'darktooth-theme)
 
