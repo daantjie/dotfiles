@@ -35,7 +35,7 @@
 
 ;;; =============== Essential ===============
 
-;; Evil
+;;  --------------- Evil ---------------
 (require 'evil)
 (evil-mode t)
 
@@ -54,8 +54,26 @@
       ;; timeout exceeded
       (insert initial-key))))
 
-(define-key evil-insert-state-map (kbd "j") 'my-jk)
+(defun my-kj ()
+  (interactive)
+  (let* ((initial-key ?k)
+         (final-key ?j)
+         (timeout 0.5)
+         (event (read-event nil nil timeout)))
+    (if event
+        ;; timeout met
+        (if (and (characterp event) (= event final-key))
+            (evil-normal-state)
+          (insert initial-key)
+          (push event unread-command-events))
+      ;; timeout exceeded
+      (insert initial-key))))
 
+;; These allow me to bash `j' and `k' to escape insert mode
+(define-key evil-insert-state-map (kbd "j") 'my-jk)
+(define-key evil-replace-state-map (kbd "j") 'my-jk)
+(define-key evil-insert-state-map (kbd "k") 'my-kj)
+(define-key evil-replace-state-map (kbd "k") 'my-kj)
 
 ;;; =============== Eyecandy ===============
 
