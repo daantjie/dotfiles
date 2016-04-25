@@ -9,12 +9,13 @@
 (require 'package)
 
 ;; List of packages to be installed!
+;; (Don't quote the packages)
 (setq package-list '(
 		     ;; Essential
-		     'evil
+		     evil
 		     ;; Eyecandy
-		     'darktooth-theme
-		     'solarized-theme))
+		     darktooth-theme
+		     solarized-theme))
 
 (setq package-archives '(("elpa" . "http://tromey.com/elpa/")
 			 ("org" . "http://orgmode.org/elpa/")
