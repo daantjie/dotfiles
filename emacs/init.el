@@ -13,6 +13,8 @@
 (setq package-list '(
 		     ;; Essential
 		     evil
+		     ;; Navigation
+		     relative-line-numbers
 		     evil-snipe
 		     ;; Eyecandy
 		     darktooth-theme
@@ -75,6 +77,11 @@
 (define-key evil-replace-state-map (kbd "j") 'my-jk)
 (define-key evil-insert-state-map (kbd "k") 'my-kj)
 (define-key evil-replace-state-map (kbd "k") 'my-kj)
+
+;; =============== Navigation ===============
+
+;; relative line numbers
+(global-relative-line-numbers-mode)
 
 ;; --------------- Evil-Snipe ---------------
 (require 'evil-snipe)
