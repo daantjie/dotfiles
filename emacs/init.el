@@ -84,25 +84,13 @@
 ;; ---------- Relative Line Numbers ----------
 (global-relative-line-numbers-mode)
 ;; --------------- Vertigo --------------- 
-(defun my-spc ()
-  (interactive)
-  (let ((event (read-event "Vertigo: ")))
-    (when (characterp event)
-      (cond ((= event ?j)
-	     (my-spc-j))
-	    ((= event ?k)
-	     (my-spc-k))
-	    ))))
-
-(evil-define-motion my-spc-j (count)
-  "Evil vertigo motion. Count has no effect."
-  (vertigo-jump-down))
-
-(evil-define-motion my-spc-k (count)
-  "Evil vertigo motion. Count has no effect."
-  (vertigo-jump-up))
+(defun my-spc (jump-key)
+  (interactive "k")
+  (vertigo--jump (key-binding jump-key) ""))
 
 (define-key evil-normal-state-map (kbd "<SPC>") 'my-spc)
+(define-key evil-visual-state-map (kbd "<SPC>") 'my-spc)
+(define-key evil-motion-state-map (kbd "<SPC>") 'my-spc)
 ;; --------------- Evil-Snipe ---------------
 (require 'evil-snipe)
 (evil-snipe-mode 1)
