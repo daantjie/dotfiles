@@ -15,6 +15,7 @@
 		     evil
 		     ;; Navigation
 		     relative-line-numbers
+		     vertigo
 		     evil-snipe
 		     ;; Eyecandy
 		     darktooth-theme
@@ -80,9 +81,28 @@
 
 ;; =============== Navigation ===============
 
-;; relative line numbers
+;; ---------- Relative Line Numbers ----------
 (global-relative-line-numbers-mode)
+;; --------------- Vertigo --------------- 
+(defun my-spc ()
+  (interactive)
+  (let ((event (read-event "Vertigo: ")))
+    (when (characterp event)
+      (cond ((= event ?j)
+	     (my-spc-j))
+	    ((= event ?k)
+	     (my-spc-k))
+	    ))))
 
+(evil-define-motion my-spc-j (count)
+  "Evil vertigo motion. Count has no effect."
+  (vertigo-jump-down))
+
+(evil-define-motion my-spc-k (count)
+  "Evil vertigo motion. Count has no effect."
+  (vertigo-jump-up))
+
+(define-key evil-normal-state-map (kbd "<SPC>") 'my-spc)
 ;; --------------- Evil-Snipe ---------------
 (require 'evil-snipe)
 (evil-snipe-mode 1)
