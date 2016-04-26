@@ -84,13 +84,14 @@
 ;; ---------- Relative Line Numbers ----------
 (global-relative-line-numbers-mode)
 ;; --------------- Vertigo --------------- 
-(defun my-spc (jump-key)
+(defun vertigo-spc (jump-key)
   (interactive "k")
-  (vertigo--jump (key-binding jump-key) ""))
+  (vertigo-set-digit-argument nil)
+  (setq unread-command-events (listify-key-sequence jump-key)))
 
-(define-key evil-normal-state-map (kbd "<SPC>") 'my-spc)
-(define-key evil-visual-state-map (kbd "<SPC>") 'my-spc)
-(define-key evil-motion-state-map (kbd "<SPC>") 'my-spc)
+(define-key evil-normal-state-map (kbd "<SPC>") 'vertigo-spc)
+(define-key evil-visual-state-map (kbd "<SPC>") 'vertigo-spc)
+(define-key evil-motion-state-map (kbd "<SPC>") 'vertigo-spc)
 ;; --------------- Evil-Snipe ---------------
 (require 'evil-snipe)
 (evil-snipe-mode 1)
