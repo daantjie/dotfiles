@@ -121,6 +121,7 @@
              [mouse-5] [down-mouse-5] [drag-mouse-5] [double-mouse-5] [triple-mouse-5]))
   (global-unset-key k))
 (mouse-wheel-mode -1)
+(mouse-avoidance-mode 'banish)
 
 ;; Scrolling
 (when (boundp 'scroll-bar-mode)
