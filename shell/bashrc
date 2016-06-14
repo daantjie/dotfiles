@@ -1,11 +1,19 @@
-#!/usr/bin/bash
+#
+# ~/.bashrc
+#
+
+# If not running interactively, don't do anything
+[[ $- != *i* ]] && return
 
 export EMAIL="danieltheexperimenter@gmail.com"
 export NAME="Daniel Oosthuizen"
 export SMTPSERVER="smtp.gmail.com"
 
+alias ls='ls --color=auto'
+PS1='[\u@\h \W]\$ '
+
+# Run a program in the background...
 ruhig () {
     `$@ &>/dev/null &`
 }
-
 alias f=ruhig

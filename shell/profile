@@ -1,9 +1,0 @@
-#!/usr/bin/bash
-
-export EMAIL="danieltheexperimenter@gmail.com"
-export NAME="Daniel Oosthuizen"
-export SMTPSERVER="smtp.gmail.com"
-
-ruhig () {
-    `$@ &>/dev/null &`
-}
