@@ -13,13 +13,19 @@
 (setq package-list '(
 		     ;; Essential
 		     evil
+		     evil-leader
+		     ;; Languages
+		     haskell-mode
+		     lua-mode
 		     ;; Navigation
 		     relative-line-numbers
 		     vertigo
 		     evil-snipe
 		     ;; Eyecandy
 		     darktooth-theme
-		     solarized-theme))
+		     solarized-theme
+		     ;; Org Mode
+		     evil-org))
 
 (setq package-archives '(("elpa" . "http://tromey.com/elpa/")
 			 ("org" . "http://orgmode.org/elpa/")
@@ -79,6 +85,16 @@
 (define-key evil-insert-state-map (kbd "k") 'my-kj)
 (define-key evil-replace-state-map (kbd "k") 'my-kj)
 
+;; =============== Languages ===============
+
+;; ---------- Haskell-Mode ----------
+(add-hook 'haskell-mode-hook 'turn-on-haskell-indentation)
+
+;; ---------- Lua-Mode ----------
+(autoload 'lua-mode "lua-mode" "Lua editing mode." t)
+(add-to-list 'auto-mode-alist '("\\.lua$" . lua-mode))
+(add-to-list 'interpreter-mode-alist '("lua" . lua-mode))
+
 ;; =============== Navigation ===============
 
 ;; ---------- Relative Line Numbers ----------
@@ -110,6 +126,11 @@
 
 ;; Solarized
 ;(require 'solarized-theme)
+
+;;; =============== Org mode ===============
+
+;; --------------- Evil-Org ---------------
+(require 'evil-org)
 
 ;;; =============== Tweaks ===============
 
