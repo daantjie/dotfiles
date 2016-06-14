@@ -47,7 +47,7 @@
   (interactive)
   (let* ((initial-key ?j)
          (final-key ?k)
-         (timeout 0.5)
+         (timeout 0.05)
          (event (read-event nil nil timeout)))
     (if event
         ;; timeout met
@@ -62,7 +62,7 @@
   (interactive)
   (let* ((initial-key ?k)
          (final-key ?j)
-         (timeout 0.5)
+         (timeout 0.05)
          (event (read-event nil nil timeout)))
     (if event
         ;; timeout met
