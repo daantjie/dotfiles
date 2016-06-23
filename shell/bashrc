@@ -9,6 +9,11 @@ export EMAIL="danieltheexperimenter@gmail.com"
 export NAME="Daniel Oosthuizen"
 export SMTPSERVER="smtp.gmail.com"
 
+# so that ConTeXt can find the fonts
+export OSFONTDIR="/usr/local/share/fonts;$HOME/.fonts"
+# and that the correct version of ConTeXt is used
+source /opt/context-minimals/setuptex
+
 alias ls='ls --color=auto'
 PS1='[\u@\h \W]\$ '
 
