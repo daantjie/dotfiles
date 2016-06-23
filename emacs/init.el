@@ -139,6 +139,20 @@
 (require 'evil-org)
 
 ;;; =============== Tweaks ===============
+;; NO MORE INCESSANT BEEPING! ARGH!
+ (setq ring-bell-function (lambda ()
+                            (call-process
+			     "mpg123"
+			     nil
+			     0
+			     nil
+			     "/home/daniel/.emacs.d/boris.mp3")))
+
+;; ♬ hello darkness, my old friend... ♬
+(defun serenade ()
+  (interactive)
+  (call-process "mpg123" nil 0 nil
+		"/home/daniel/.emacs.d/serenade.mp3"))
 
 ;; Disable the mouse!
 (dolist (k '([mouse-1] [down-mouse-1] [drag-mouse-1] [double-mouse-1] [triple-mouse-1]
