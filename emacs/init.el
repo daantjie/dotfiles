@@ -5,13 +5,14 @@
 
 ;;; =============== Package ===============
 
-
 (require 'package)
 
 ;; List of packages to be installed!
 ;; (Don't quote the packages)
 (setq package-list '(
 		     ;; Essential
+		     helm
+		     helm-swoop
 		     evil
 		     evil-leader
 		     ;; Languages
@@ -44,6 +45,11 @@
     (package-install package)))
 
 ;;; =============== Essential ===============
+
+;;  --------------- Helm ---------------
+
+(require 'helm-config)
+(require 'helm-swoop)
 
 ;;  --------------- Evil ---------------
 (require 'evil)
