@@ -110,15 +110,33 @@
 
 ;; ---------- Relative Line Numbers ----------
 (global-relative-line-numbers-mode)
-;; --------------- Vertigo --------------- 
-(defun vertigo-spc (jump-key)
-  (interactive "k")
-  (vertigo-set-digit-argument nil)
-  (setq unread-command-events (listify-key-sequence jump-key)))
 
-(define-key evil-normal-state-map (kbd "<SPC>") 'vertigo-spc)
-(define-key evil-visual-state-map (kbd "<SPC>") 'vertigo-spc)
-(define-key evil-motion-state-map (kbd "<SPC>") 'vertigo-spc)
+;; --------------- Vertigo ---------------
+(require 'vertigo)
+
+;; (defun vertigo-spc (jump-key)
+;;   (interactive "k")
+;;   (vertigo-set-digit-argument nil)
+;;   (setq unread-command-events (listify-key-sequence jump-key)))
+
+;; (evil-beginning-of-line)
+;; (evil-end-of-line)
+
+(evil-define-motion vertigo-j (count)
+  :type line
+  :jump t
+  (vertigo--jump #'evil-next-line "Jump down: "))
+
+(define-key evil-normal-state-map (kbd "<SPC>")
+  #'vertigo-alt-run-command-with-digit-argument)
+(define-key evil-visual-state-map (kbd "<SPC>")
+  #'vertigo-alt-run-command-with-digit-argument)
+(define-key evil-motion-state-map (kbd "<SPC>")
+  #'vertigo-alt-run-command-with-digit-argument)
+
+(define-key evil-normal-state-map (kbd "j") #'vertigo-j)
+(define-key evil-visual-state-map (kbd "j") #'vertigo-j)
+(define-key evil-motion-state-map (kbd "j") #'vertigo-j)
 ;; --------------- Evil-Snipe ---------------
 (require 'evil-snipe)
 (evil-snipe-mode 1)
