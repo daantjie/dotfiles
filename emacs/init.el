@@ -146,6 +146,15 @@
 (define-key evil-normal-state-map (kbd "k") #'vertigo-k)
 (define-key evil-visual-state-map (kbd "k") #'vertigo-k)
 (define-key evil-motion-state-map (kbd "k") #'vertigo-k)
+
+(define-key evil-normal-state-map (kbd "g j") #'evil-next-visual-line)
+(define-key evil-visual-state-map (kbd "g j") #'evil-next-visual-line)
+(define-key evil-motion-state-map (kbd "g j") #'evil-next-visual-line)
+
+(define-key evil-normal-state-map (kbd "g k") #'evil-previous-visual-line)
+(define-key evil-visual-state-map (kbd "g k") #'evil-previous-visual-line)
+(define-key evil-motion-state-map (kbd "g k") #'evil-previous-visual-line)
+
 ;; --------------- Evil-Snipe ---------------
 (require 'evil-snipe)
 (evil-snipe-mode 1)
