@@ -127,6 +127,11 @@
   :jump t
   (vertigo--jump #'evil-next-line "Jump down: "))
 
+(evil-define-motion vertigo-k (count)
+  :type line
+  :jump t
+  (vertigo--jump #'evil-previous-line "Jump up: "))
+
 (define-key evil-normal-state-map (kbd "<SPC>")
   #'vertigo-alt-run-command-with-digit-argument)
 (define-key evil-visual-state-map (kbd "<SPC>")
@@ -137,6 +142,10 @@
 (define-key evil-normal-state-map (kbd "j") #'vertigo-j)
 (define-key evil-visual-state-map (kbd "j") #'vertigo-j)
 (define-key evil-motion-state-map (kbd "j") #'vertigo-j)
+
+(define-key evil-normal-state-map (kbd "k") #'vertigo-k)
+(define-key evil-visual-state-map (kbd "k") #'vertigo-k)
+(define-key evil-motion-state-map (kbd "k") #'vertigo-k)
 ;; --------------- Evil-Snipe ---------------
 (require 'evil-snipe)
 (evil-snipe-mode 1)
