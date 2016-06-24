@@ -15,6 +15,7 @@
 		     helm-swoop
 		     evil
 		     evil-leader
+		     evil-mc
 		     ;; Languages
 		     haskell-mode
 		     lua-mode
@@ -90,6 +91,10 @@
 (define-key evil-replace-state-map (kbd "j") 'my-jk)
 (define-key evil-insert-state-map (kbd "k") 'my-kj)
 (define-key evil-replace-state-map (kbd "k") 'my-kj)
+
+;; ---------- Evil-MC ----------
+(require 'evil-mc)
+(global-evil-mc-mode 1)
 
 ;; =============== Languages ===============
 
