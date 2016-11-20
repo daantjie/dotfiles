@@ -6,38 +6,58 @@
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
 
+#########
+# exports
+
+# add ~/bin to PATH
 export PATH="$HOME/bin:$PATH"
 
+# tell the computer who I am
 export EMAIL="danieltheexperimenter@gmail.com"
 export NAME="Daniel Oosthuizen"
 export SMTPSERVER="smtp.gmail.com"
 
 # for rvm (Ruby Version Manager)
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"
-# so that ConTeXt can find the fonts
-export OSFONTDIR="/usr/local/share/fonts;$HOME/.fonts"
-# and that the correct version of ConTeXt is used
-alias usingcontext=`source /opt/context-minimals/setuptex`
-# alias for the Pyth interpreter
-alias pyth="python3 $HOME/source/pyth/pyth.py"
-function pyth_oneliner {
-    echo $1 | pyth
-}
-alias p="pyth_oneliner"
-# alias for Mornington Crescent interpreter
-alias crescent="python $HOME/source/Esoterpret/esoterpret.py --nogui -l morningtoncrescent"
 
-alias ls='ls --color=auto'
-PS1='[\u@\h \W]\$ '
+export PS1='[\u@\h \W]\$ '
+export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
+export XDG_CONFIG_HOME="$HOME/.config/"
 
-# Run a program in the background...
+###########
+# functions
+
+# run a process in the backround, quietly
 ruhig () {
-    `$@ &>/dev/null &`
+    `nohup $@ &>/dev/null &`
 }
-alias f=ruhig
-# Search for processes...
+
+#########
+# aliases
+
+# # alias for Mornington Crescent interpreter
+# alias crescent="python $HOME/source/Esoterpret/esoterpret.py --nogui -l morningtoncrescent"
+
+# coloured ls output
+alias ls='ls --color=auto'
+
+# search for a process
 alias pag="ps aux | ag -i"
 
-export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
+# run a process in the background, quietly
+alias n="ruhig"
 
-export XDG_CONFIG_HOME="$HOME/.config/"
+############
+# deprecated
+
+# # so that ConTeXt can find the fonts
+# export OSFONTDIR="/usr/local/share/fonts;$HOME/.fonts"
+# # and that the correct version of ConTeXt is used
+# alias usingcontext=`source /opt/context-minimals/setuptex`
+
+# # alias for the Pyth interpreter
+# alias pyth="python3 $HOME/source/pyth/pyth.py"
+# function pyth_oneliner {
+#     echo $1 | pyth
+# }
+# alias p="pyth_oneliner"
