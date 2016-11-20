@@ -39,3 +39,5 @@ alias f=ruhig
 alias pag="ps aux | ag -i"
 
 export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
+
+export XDG_CONFIG_HOME="$HOME/.config/"
