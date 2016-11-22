@@ -20,7 +20,7 @@ compinit
 #########
 # sources
 
-source ~/liquidprompt/liquidprompt
+source ~/.liquidprompt/liquidprompt
 
 #########
 # exports
