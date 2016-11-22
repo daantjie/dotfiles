@@ -1,0 +1,15 @@
+#!/usr/bin/env python3
+
+import argparse
+
+parser = argparse.ArgumentParser(
+    description="Make executables from (common) lisp files in a directory."
+)
+
+parser.add_argument("modules",
+                    action="append",
+                    help="modules to tie into the executable")
+
+args = parser.parse_args()
+
+print(args)
