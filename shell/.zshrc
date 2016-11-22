@@ -18,6 +18,11 @@ compinit
 # End of lines added by compinstall
 
 #########
+# sources
+
+source ~/liquidprompt/liquidprompt
+
+#########
 # exports
 
 # add ~/bin to PATH
@@ -31,7 +36,6 @@ export SMTPSERVER="smtp.gmail.com"
 # for rvm (Ruby Version Manager)
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"
 
-export PS1='[\u@\h \W]\$ '
 export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
 export XDG_CONFIG_HOME="$HOME/.config/"
 
