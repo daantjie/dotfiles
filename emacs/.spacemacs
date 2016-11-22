@@ -48,6 +48,7 @@ values."
    ;; configuration in `dotspacemacs/user-config'.
    dotspacemacs-additional-packages '(icicles
                                       smex
+                                      geiser
                                       buttercup
                                       lentic
                                       eyebrowse
@@ -290,6 +291,7 @@ explicitly specified that a variable should be set before a package is loaded,
 you should place your code here."
   (setq-default evil-escape-key-sequence "jk"
                 inferior-lisp-program "/usr/bin/sbcl"
+                geiser-active-implementations '(chicken guile)
                 nameless-global-aliases '(("" . "bedlam")))
 
   (defun daio/bind (keys f-sym)
