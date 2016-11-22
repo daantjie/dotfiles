@@ -106,6 +106,9 @@ alias e="emacs --daemon"
 # open an Emacs client
 alias c="ruhig emacsclient -c"
 
+# start redshift
+alias rsh="ruhig redshift"
+
 ############
 # deprecated
 
