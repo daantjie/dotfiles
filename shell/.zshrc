@@ -25,6 +25,15 @@ source ~/.liquidprompt/liquidprompt
 #########
 # exports
 
+export LP_MARK_PREFIX=$'\n ··· '
+export LP_MARK_DEFAULT=$'→'
+export LP_MARK_HG="$LP_MARK_DEFAULT"
+export LP_MARK_SVN="$LP_MARK_DEFAULT"
+export LP_MARK_GIT="$LP_MARK_DEFAULT"
+export LP_MARK_FOSSIL="$LP_MARK_DEFAULT"
+export LP_MARK_BZR="$LP_MARK_DEFAULT"
+export LP_MARK_DISABLED="$LP_MARK_DEFAULT"
+
 # add ~/bin to PATH
 export PATH="$HOME/bin:$PATH"
 
