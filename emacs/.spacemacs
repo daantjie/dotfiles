@@ -320,6 +320,13 @@ you should place your code here."
   (spacemacs/set-leader-keys "bb" 'ido-switch-buffer)
   (spacemacs/set-leader-keys ":" 'helm-M-x) ;; smex is too slow
 
+  (defun daio/insert-script-usage (s)
+    (interactive "MUsage: ")
+    (setq s (concat "#  Usage: " s "  #"))
+    (let ((pre (concat (make-string (length s) ?\#)
+                       "\n")))
+      (insert pre s "\n" pre)))
+
   ;; Modes 
   (add-hook 'emacs-lisp-mode-hook 'paredit-mode)
   (add-hook 'emacs-lisp-mode-hook 'evil-paredit-mode)
