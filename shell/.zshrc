@@ -56,6 +56,10 @@ ruhig () {
     `nohup $@ &>/dev/null &`
 }
 
+# mkdir and cd combined
+mk () {
+    mkdir -p $@; cd $_
+}
 #########
 # aliases
 
@@ -70,6 +74,12 @@ alias pag="ps aux | ag -i"
 
 # run a process in the background, quietly
 alias n="ruhig"
+
+# delete something
+alias r="rm -r"
+
+# REALLY delete something
+alias rr="rm -rf"
 
 # moving up a directory...
 alias u="cd .."
