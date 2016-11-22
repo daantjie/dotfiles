@@ -59,11 +59,11 @@ ruhig () {
 #########
 # aliases
 
-# # alias for Mornington Crescent interpreter
-# alias crescent="python $HOME/source/Esoterpret/esoterpret.py --nogui -l morningtoncrescent"
-
 # coloured ls output
-alias ls='ls --color=auto'
+alias ls="ls --color=auto"
+
+# see all files in a directory
+alias l="ls -a"
 
 # search for a process
 alias pag="ps aux | ag -i"
@@ -71,8 +71,38 @@ alias pag="ps aux | ag -i"
 # run a process in the background, quietly
 alias n="ruhig"
 
+# moving up a directory...
+alias u="cd .."
+alias uu="cd ../.."
+alias uuu="cd ../../.."
+alias uuuu="cd ../../../.." # ... no, I didn't write this by hand;
+alias uuuuu="cd ../../../../.." # I used a keyboard macro in Emacs!
+alias uuuuuu="cd ../../../../../.."
+alias uuuuuuu="cd ../../../../../../.."
+alias uuuuuuuu="cd ../../../../../../../.."
+alias uuuuuuuuu="cd ../../../../../../../../.."
+alias uuuuuuuuuu="cd ../../../../../../../../../.."
+alias uuuuuuuuuuu="cd ../../../../../../../../../../.."
+alias uuuuuuuuuuuu="cd ../../../../../../../../../../../.."
+alias uuuuuuuuuuuuu="cd ../../../../../../../../../../../../.."
+alias uuuuuuuuuuuuuu="cd ../../../../../../../../../../../../../.."
+alias uuuuuuuuuuuuuuu="cd ../../../../../../../../../../../../../../.."
+alias uuuuuuuuuuuuuuuu="cd ../../../../../../../../../../../../../../../.."
+alias uuuuuuuuuuuuuuuuu="cd ../../../../../../../../../../../../../../../../.."
+
+# start Emacs as a daemon
+alias e="emacs --daemon"
+
+# open an Emacs client
+alias c="ruhig emacsclient -c"
+
 ############
 # deprecated
+
+# # alias for Mornington Crescent interpreter
+# alias crescent="python $HOME/source/Esoterpret/esoterpret.py \
+#                        --nogui \
+#                        -l morningtoncrescent"
 
 # # so that ConTeXt can find the fonts
 # export OSFONTDIR="/usr/local/share/fonts;$HOME/.fonts"
