@@ -1,10 +1,21 @@
-#!/usr/bin/env bash
-#
-# ~/.bashrc
-#
+#############################################
+# Daantjie's (interactive) zsh configuration.
+#############################################
 
-# If not running interactively, don't do anything
-[[ $- != *i* ]] && return
+# Lines configured by zsh-newuser-install
+HISTFILE=~/.histfile
+HISTSIZE=1000
+SAVEHIST=1000
+setopt appendhistory autocd extendedglob nomatch notify
+unsetopt beep
+bindkey -v
+# End of lines configured by zsh-newuser-install
+# The following lines were added by compinstall
+zstyle :compinstall filename '/home/daniel/.zshrc'
+
+autoload -Uz compinit
+compinit
+# End of lines added by compinstall
 
 #########
 # exports
