@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+######################
+#  Usage: ergosetup  #
+######################
+
+mkdir -p ~/t/ergo
+mv ~/Downloads/MDErgo1-Default-* ~/t/ergo
+cd ~/t/ergo/
+unzip MDErgo1-Default-*
+shopt -s extglob
+rm -rf -- !(right*|left*)

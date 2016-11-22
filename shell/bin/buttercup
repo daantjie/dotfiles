@@ -1,0 +1,6 @@
+#!/usr/bin/bash
+# Run buttercup with coloured output
+####################################################
+#  Usage: buttercup (while in elisp project root)  #
+####################################################
+cask exec buttercup -L . | color-buttercup-output

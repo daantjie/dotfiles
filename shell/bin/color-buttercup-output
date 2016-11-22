@@ -1,0 +1,64 @@
+#!/usr/bin/perl
+
+# A little script to colour the output from buttercup (a BDD framework for
+# Emacs). It also places a visual summary of passes and failures near the bottom
+# of the output.
+
+# Use in conjunction with the script called "buttercup" (also in the bin).
+
+use Term::ANSIColor;
+use POSIX qw(ceil floor);
+
+$sf = "?"; # symbol for fails
+$sp = "*"; # symbol for passes
+$pad = "   "; # padding before the block summary
+$x = 14; # dimensions of the block
+$y = 7;  # (a ratio of x:y :: 2:1 seems best)
+
+sub line {
+    my $x = shift;
+    my $s = shift;
+    return $pad . ($s x $x) . "\n";
+}
+
+sub print_fail {
+    my $line = shift;
+    print color("red");
+    print $line;
+    print color("reset");
+}
+
+sub print_summary {
+    my $line = shift;
+    my $n = shift;
+    my $f = shift;
+    my $A = $x * $y;
+    my $nf = ceil($A * $f / $n);
+    my $np = floor($A * ($n - $f) / $n);
+    print color("red");
+    print &line($x, $sf) x floor($nf / $x);
+    print $pad, $sf x ($nf % $x);
+    print color("green");
+    print $sp x ($np % $x), "\n";
+    print &line($x, $sp) x floor($np / $x);
+    print color("reset"), "\n";
+    print $line;
+}
+
+sub filter {
+    $line = shift;
+    if ($line =~ /FAILED$/) {
+        &print_fail($line);
+        return;
+    }
+    (my $n, my $f) = $line =~ /^Ran (\d+) specs, (\d+) failed, in [\d.]+ seconds.$/;
+    if ($n) {
+        &print_summary($line, $n, $f);
+    } else {
+        print $line;
+    }
+}
+
+while (my $line = <STDIN>) {
+    &filter($line);
+}

@@ -1,0 +1,5 @@
+#!/bin/bash
+filepath=`zenity --entry --text="Absolute path for output (sans extension)"`
+ffcast -s rec "$filepath.avi"
+ffmpeg -i "$filepath.avi" -t 10 "$filepath-temp.gif"
+gifsicle --delay=10 --loop "$filepath-temp.gif" > "$file.gif"

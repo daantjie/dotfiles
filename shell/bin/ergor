@@ -1,0 +1,4 @@
+#!/bin/bash
+
+cd ~/t/ergo
+sudo dfu-util -D right_kiibohd.dfu.bin
