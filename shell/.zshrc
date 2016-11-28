@@ -47,7 +47,11 @@ export SMTPSERVER="smtp.gmail.com"
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"
 
 export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
+
 export XDG_CONFIG_HOME="$HOME/.config/"
+
+export ALTERNATE_EDITOR=""
+export EDITOR=emacsclient
 
 ###########
 # functions
@@ -61,6 +65,7 @@ ruhig () {
 mk () {
     mkdir -p $@; cd $_
 }
+
 #########
 # aliases
 
@@ -101,14 +106,19 @@ alias uuuuuuuuuuuuuuu="cd ../../../../../../../../../../../../../../.."
 alias uuuuuuuuuuuuuuuu="cd ../../../../../../../../../../../../../../../.."
 alias uuuuuuuuuuuuuuuuu="cd ../../../../../../../../../../../../../../../../.."
 
-# start Emacs as a daemon
-alias e="emacs --daemon"
-
-# open an Emacs client
-alias c="ruhig emacsclient -c"
+# running Emacs with a file
+alias e="emacsclient -t" # In a terminal...
+alias ee="emacsclient -c" # ...or in the GUI.
 
 # start redshift
 alias rsh="ruhig redshift"
+
+# set the wifi interface up or down
+alias wup="sudo ip link set dev wlp1s0 up"
+alias wdown="sudo ip link set dev wlp1s0 down"
+
+# circumvent mac filtering
+alias vent="wdown && sudo macchanger -e wlp1s0 > /dev/null && wup"
 
 ############
 # deprecated
