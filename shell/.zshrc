@@ -36,6 +36,7 @@ export LP_MARK_DISABLED="$LP_MARK_DEFAULT"
 
 # add ~/bin to PATH
 export PATH="$HOME/bin:$PATH"
+export PATH="$HOME/.gem/ruby/2.3.0/bin:$PATH"
 
 # tell the computer who I am
 export EMAIL="danieltheexperimenter@gmail.com"
