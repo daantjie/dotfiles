@@ -27,6 +27,11 @@ source ~/.liquidprompt/liquidprompt
 
 export LP_MARK_PREFIX=$'\n ··· '
 export LP_MARK_DEFAULT=$'→'
+# So prompt looks like this:
+##[daniel:~]
+## ··· →
+
+# Get rid of changing prompt symbol (due to VC repos)
 export LP_MARK_HG="$LP_MARK_DEFAULT"
 export LP_MARK_SVN="$LP_MARK_DEFAULT"
 export LP_MARK_GIT="$LP_MARK_DEFAULT"
