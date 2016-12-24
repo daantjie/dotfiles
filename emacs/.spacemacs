@@ -406,7 +406,10 @@ you should place your code here."
                     org-level-2
                     org-level-3
                     org-level-4
-                    org-level-5))
+                    org-level-5
+                    org-level-6
+                    org-level-7
+                    org-level-8))
       (set-face-attribute face nil :font "Inconsolata" :weight 'normal :height 1.0)))
   (add-hook 'org-mode-hook #'daio/normalize-org-header-size)
   ;; The `:after' keyword is necessary!
