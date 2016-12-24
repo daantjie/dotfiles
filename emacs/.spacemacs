@@ -320,6 +320,14 @@ you should place your code here."
   (spacemacs/set-leader-keys "bb" 'ido-switch-buffer)
   (spacemacs/set-leader-keys ":" 'helm-M-x) ;; smex is too slow
 
+  ;; Modes
+
+  (defun daio/prettify-scheme ()
+    (push '("\\<#?!\\sw+\\>" . font-lock-type-face)
+          scheme-font-lock-keywords-2))
+
+  (add-hook 'scheme-mode-hook 'daio/prettify-scheme)
+
   (defun daio/insert-script-usage (s)
     (interactive "MUsage: ")
     (setq s (concat "#  Usage: " s "  #"))
