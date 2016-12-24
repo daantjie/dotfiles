@@ -327,11 +327,22 @@ you should place your code here."
                        "\n")))
       (insert pre s "\n" pre)))
 
-  ;; Modes 
-  (add-hook 'emacs-lisp-mode-hook 'paredit-mode)
-  (add-hook 'emacs-lisp-mode-hook 'evil-paredit-mode)
-  (add-hook 'emacs-lisp-mode-hook 'nameless-mode)
+  (defun daio/add-hooks% (hooks fns)
+    (declare (indent 1))
+    (loop for hook in hooks
+          do (loop for fn in fns
+                   do (add-hook hook fn))))
 
+  (defmacro daio/add-hooks (hooks fns)
+    (declare (indent 1))
+    (daio/add-hooks% hooks fns))
+
+  (daio/add-hooks
+      (emacs-lisp-mode-hook
+       lisp-mode-hook
+       slime-repl-mode-hook)
+    (paredit-mode
+     evil-paredit-mode))
 
   ;; Since the default remove highlight doesn't work with `evil-search',
   ;; I've redefined it. Hopefully the proper highlighting will be used
