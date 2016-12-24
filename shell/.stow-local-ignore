@@ -3,6 +3,7 @@
 
 _.*
 -.*
+Makefile
 
 ##########
 # defaults
