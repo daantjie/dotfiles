@@ -34,9 +34,10 @@ export LP_MARK_FOSSIL="$LP_MARK_DEFAULT"
 export LP_MARK_BZR="$LP_MARK_DEFAULT"
 export LP_MARK_DISABLED="$LP_MARK_DEFAULT"
 
-# add ~/bin to PATH
+# add several `bins'
 export PATH="$HOME/bin:$PATH"
 export PATH="$HOME/.gem/ruby/2.3.0/bin:$PATH"
+export PATH="$HOME/.cabal/bin:$PATH"
 
 # tell the computer who I am
 export EMAIL="danieltheexperimenter@gmail.com"
@@ -107,8 +108,8 @@ alias uuuuuuuuuuuuuuuu="cd ../../../../../../../../../../../../../../../.."
 alias uuuuuuuuuuuuuuuuu="cd ../../../../../../../../../../../../../../../../.."
 
 # running Emacs with a file
-alias e="emacsclient -t" # In a terminal...
-alias ee="emacsclient -c" # ...or in the GUI.
+alias e="ruhig emacsclient -t" # In a terminal...
+alias ee="ruhig emacsclient -c" # ...or in the GUI.
 
 # start redshift
 alias rsh="ruhig redshift"
@@ -117,8 +118,9 @@ alias rsh="ruhig redshift"
 alias wup="sudo ip link set dev wlp1s0 up"
 alias wdown="sudo ip link set dev wlp1s0 down"
 
-# circumvent mac filtering
+# pvephzirag znp svygrevat
 alias vent="wdown && sudo macchanger -e wlp1s0 > /dev/null && wup"
+alias unvent="wdown && sudo macchanger -p wlp1s0 > /dev/null && wup"
 
 ############
 # deprecated
