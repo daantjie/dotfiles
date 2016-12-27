@@ -127,6 +127,15 @@ alias wdown="sudo ip link set dev wlp1s0 down"
 alias vent="wdown && sudo macchanger -e wlp1s0 > /dev/null && wup"
 alias unvent="wdown && sudo macchanger -p wlp1s0 > /dev/null && wup"
 
+# run Steam
+alias stm='find ~/.steam/root/ \( \
+                      -name "libgcc_s.so*" -o \
+                      -name "libstdc++.so*" -o \
+                      -name "libxcb.so*" -o \
+                      -name "libgpg-error.so*" \) \
+                      -print -delete \
+                 && steam'
+
 ############
 # deprecated
 
