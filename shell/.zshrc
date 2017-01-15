@@ -21,6 +21,7 @@ compinit
 # sources
 
 source ~/.liquidprompt/liquidprompt
+source ~/lib/aliases
 
 #########
 # exports
@@ -72,69 +73,21 @@ mk () {
     mkdir -p $@; cd $_
 }
 
+# adding aliases
+new-alias () {
+    echo "alias $@" >> ~/lib/aliases
+}
+
+inew-alias () {
+    echo "Description: "
+    read DESC
+    echo -e "\n# $DESC\nalias $@" >> ~/lib/aliases
+}
+
 #########
 # aliases
 
-# coloured ls output
-alias ls="ls --color=auto"
-
-# see all files in a directory
-alias l="ls -a"
-
-# search for a process
-alias pag="ps aux | ag -i"
-
-# run a process in the background, quietly
-alias n="ruhig"
-
-# delete something
-alias r="rm -r"
-
-# REALLY delete something
-alias rr="rm -rf"
-
-# moving up a directory...
-alias u="cd .."
-alias uu="cd ../.."
-alias uuu="cd ../../.."
-alias uuuu="cd ../../../.." # ... no, I didn't write this by hand;
-alias uuuuu="cd ../../../../.." # I used a keyboard macro in Emacs!
-alias uuuuuu="cd ../../../../../.."
-alias uuuuuuu="cd ../../../../../../.."
-alias uuuuuuuu="cd ../../../../../../../.."
-alias uuuuuuuuu="cd ../../../../../../../../.."
-alias uuuuuuuuuu="cd ../../../../../../../../../.."
-alias uuuuuuuuuuu="cd ../../../../../../../../../../.."
-alias uuuuuuuuuuuu="cd ../../../../../../../../../../../.."
-alias uuuuuuuuuuuuu="cd ../../../../../../../../../../../../.."
-alias uuuuuuuuuuuuuu="cd ../../../../../../../../../../../../../.."
-alias uuuuuuuuuuuuuuu="cd ../../../../../../../../../../../../../../.."
-alias uuuuuuuuuuuuuuuu="cd ../../../../../../../../../../../../../../../.."
-alias uuuuuuuuuuuuuuuuu="cd ../../../../../../../../../../../../../../../../.."
-
-# running Emacs with a file
-alias e="ruhig emacsclient -t" # In a terminal...
-alias ee="ruhig emacsclient -c" # ...or in the GUI.
-
-# start redshift
-alias rsh="ruhig redshift"
-
-# set the wifi interface up or down
-alias wup="sudo ip link set dev wlp1s0 up"
-alias wdown="sudo ip link set dev wlp1s0 down"
-
-# pvephzirag znp svygrevat
-alias vent="wdown && sudo macchanger -e wlp1s0 > /dev/null && wup"
-alias unvent="wdown && sudo macchanger -p wlp1s0 > /dev/null && wup"
-
-# run Steam
-alias stm='find ~/.steam/root/ \( \
-                      -name "libgcc_s.so*" -o \
-                      -name "libstdc++.so*" -o \
-                      -name "libxcb.so*" -o \
-                      -name "libgpg-error.so*" \) \
-                      -print -delete \
-                 && steam'
+## -> /lib/aliases
 
 ############
 # deprecated
