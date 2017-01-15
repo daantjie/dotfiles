@@ -46,25 +46,26 @@ values."
    ;; wrapped in a layer. If you need some configuration for these
    ;; packages, then consider creating a layer. You can also put the
    ;; configuration in `dotspacemacs/user-config'.
-   dotspacemacs-additional-packages '(icicles
-                                      w3m
-                                      smex
-                                      geiser
+   dotspacemacs-additional-packages '(anaphora
                                       buttercup
-                                      lentic
-                                      eyebrowse
-                                      sx
-                                      anaphora
                                       cask-mode
-                                      nameless
                                       dash-functional
-                                      f
-                                      s
-                                      spray
-                                      speed-type
-                                      paredit
                                       evil-paredit
-                                      minesweeper)
+                                      eyebrowse
+                                      f
+                                      geiser
+                                      icicles
+                                      lentic
+                                      minesweeper
+                                      nameless
+                                      paredit
+                                      pollen-mode
+                                      s
+                                      smex
+                                      speed-type
+                                      spray
+                                      sx
+                                      w3m)
    ;; A list of packages and/or extensions that will not be install and loaded.
    dotspacemacs-excluded-packages '(eval-sexp-fu)
    ;; If non-nil spacemacs will delete any orphan packages, i.e. packages that
@@ -277,7 +278,10 @@ executes.
  This function is mostly useful for variables that need to be set
 before packages are loaded. If you are unsure, you should try in setting them in
 `dotspacemacs/user-config' first."
-  (setq-default evil-search-module 'evil-search))
+  (setq-default evil-search-module 'evil-search)
+
+  (add-to-list 'load-path (expand-file-name "private/local/pollen-mode" user-emacs-directory))
+  (autoload 'pollen-mode "pollen" "A major mode for the pollen preprocessor." t))
 ;; ****************************
 ;; END OF dotspacemacs/user-init
 ;; ****************************
@@ -292,21 +296,22 @@ you should place your code here."
   (setq-default evil-escape-key-sequence "jk"
                 inferior-lisp-program "/usr/bin/sbcl"
                 geiser-active-implementations '(chicken guile)
-                nameless-global-aliases '(("" . "bedlam")))
+                nameless-global-aliases '(("" . "bedlam"))
+                recentf-max-saved-items 50)
+
+  (yas-global-mode)
 
   (defun daio/bind (keys f-sym)
     (global-set-key (kbd keys) f-sym))
 
   (load-file "~/.emacs.d/private/local/bedlam/bedlam.el")
   (daio/bind "C-c C-e" 'bedlam-eval-and-replace)
+  (daio/bind "C-*" 'bedlam-eval-and-replace)
+  (daio/bind "C-%" 'bedlam-insert-date)
+  (daio/bind "C-h" 'spacemacs/toggle-holy-mode)
 
   (defun daio/new-private-package (name)
     (find-file (f-join (f-long user-emacs-directory) "private" "local" name)))
-
-  (daio/bind "C-h" 'spacemacs/toggle-holy-mode)
-
-
-  (setq recentf-max-saved-items 50)
 
   (defun ido-find-file-recentf ()
     "Use `ido-completing-read' to \\[find-file] a recent file"
@@ -326,8 +331,6 @@ you should place your code here."
     (push '("\\<#?!\\sw+\\>" . font-lock-type-face)
           scheme-font-lock-keywords-2))
 
-  (add-hook 'scheme-mode-hook 'daio/prettify-scheme)
-
   (defun daio/insert-script-usage (s)
     (interactive "MUsage: ")
     (setq s (concat "#  Usage: " s "  #"))
@@ -335,32 +338,26 @@ you should place your code here."
                        "\n")))
       (insert pre s "\n" pre)))
 
-  (defun daio/add-hooks% (hooks fns)
-    (declare (indent 1))
-    (loop for hook in hooks
-          do (loop for fn in fns
-                   do (add-hook hook fn))))
-
-  (defmacro daio/add-hooks (hooks fns)
-    (declare (indent 1))
-    (daio/add-hooks% hooks fns))
-
-  (daio/add-hooks
+  (bedlam-add-hooks ; LISPS
       (emacs-lisp-mode-hook
        lisp-mode-hook
+       (scheme-mode-hook
+        :+ (daio/prettify-scheme))
        slime-repl-mode-hook)
     (paredit-mode
      evil-paredit-mode))
 
   ;; Since the default remove highlight doesn't work with `evil-search',
   ;; I've redefined it. Hopefully the proper highlighting will be used
-  ;; in the future, and I'll remove this (pretty good) hack.
+  ;; in the future, and I'll remove this hack.
   (defun daio/no-hl ()
     "Removes highlighting on search terms in the same way that
     `evil-ex-search-abort' would."
     (interactive)
     (evil-ex-delete-hl 'evil-ex-search))
+
   (spacemacs/set-leader-keys "sc" #'daio/no-hl)
+
   (defun daio/insert-single-quotes ()
     (interactive)
     (insert "‘’")
@@ -440,6 +437,73 @@ you should place your code here."
             ("(\\(funcall\\)[ \t\n\r]" . ?\⇈)
             ("(\\(apply\\)[ \t\n\r]" . ?\⇊))))
 
+  (defun daio/read-last-sexp-and-set-to (sym)
+    (interactive "SSymbol: ")
+    (set sym (read (thing-at-point 'sexp))))
+
+  ;; (daio/bind "C-$" 'daio/read-last-sexp-and-set-to)
+
+  (defun daio/line-length () (length (thing-at-point 'line t)))
+
+  (defun daio/flush-right (&optional n)
+    (interactive)
+    (let ((n (or n 80)))
+      (while (> n (daio/line-length))
+        (save-excursion
+          (beginning-of-line)
+          (insert " ")))))
+
+  (daio/bind "C-$" 'daio/flush-right)
+
+  (defun daio/kill-to-bol ()
+    (interactive)
+    (kill-region
+     (save-excursion (beginning-of-line) (point))
+     (point)))
+
+  (daio/bind "C-M-^" 'daio/kill-to-bol)
+
+  (defun daio/inserter (keys insert)
+    (daio/bind keys (lambda ()
+                      (interactive)
+                      (insert insert))))
+
+  (defun daio/parse-inserter-binding (binding)
+    (if (consp (cadr binding))
+        ))
+
+  (defmacro daio/inserters (bindings))
+
+  (daio/inserters
+   ("C-s"
+    ("l" ?\λ)
+    ("f" ?\ƒ)
+    ("-" ?\→)
+    ("a" ?\α)
+    ("y" ?\ψ)
+    ("o" ?\◊)
+    ("." ?\•)))
+
+  (defun daio/bind-char (keys char)
+    (lexical-let ((char char))
+        (daio/bind keys (lambda () (interactive) (insert char)))))
+
+  (daio/bind-char "C-s-l" "\u03bb") ; λ lambda
+  (daio/bind-char "C-s-f" "\u0192") ; ƒ function
+  ;; (daio/bind-char "C-s--" "\u2192") ; → right arrow
+  (daio/bind-char "C-s-a" "\u03b1") ; α alpha
+  (daio/bind-char "C-s-y" "\u03c8") ; ψ psi
+
+  (daio/bind-char "s-C-o" ?\◊)
+  (daio/bind-char "s-C-." ?\•)
+  (daio/bind-char "s-C-[" ?\［)
+  (daio/bind-char "s-C-]" ?\］)
+  (daio/bind-char "s-C-*" ?\★)
+  (daio/bind-char "s-C--" ?\⟶)
+  (daio/bind-char "s-C-_" ?\⟵)
+  (daio/bind-char "s-C-=" ?\⟹)
+  (daio/bind-char "s-M-=" ?\⟸)
+
   (add-to-list 'emacs-lisp-mode-hook 'daio/pretty-functional)
   ;; (add-to-list 'emacs-lisp-mode-hook (lambda ()
   ;;                                      (require 'buttercup)))
@@ -496,7 +560,7 @@ you should place your code here."
  '(evil-want-Y-yank-to-eol t)
  '(package-selected-packages
    (quote
-    (w3m eval-sexp-fu xterm-color ws-butler window-numbering which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org sx spray speed-type spacemacs-theme spaceline smex smeargle slime slack shell-pop restart-emacs ranger rainbow-mode rainbow-identifiers rainbow-delimiters quelpa popwin persp-mode pcre2el paradox orgit org-projectile org-present org-pomodoro org-plus-contrib org-download org-bullets open-junk-file neotree nameless multi-term move-text monokai-theme mmm-mode minesweeper markdown-toc magit-gitflow lorem-ipsum linum-relative link-hint lentic intero info+ indent-guide ido-vertical-mode icicles hungry-delete htmlize hlint-refactor hl-todo hindent highlight-parentheses highlight-numbers highlight-indentation help-fns+ helm-themes helm-swoop helm-projectile helm-mode-manager helm-make helm-hoogle helm-gitignore helm-flx helm-descbinds helm-ag haskell-snippets google-translate golden-ratio gnuplot gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link gh-md geiser flycheck-pos-tip flycheck-haskell flx-ido fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-snipe evil-search-highlight-persist evil-paredit evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-magit evil-lisp-state evil-indent-plus evil-iedit-state evil-exchange evil-escape evil-ediff evil-args evil-anzu eshell-z eshell-prompt-extras esh-help erc-yt erc-view-log erc-social-graph erc-image erc-hl-nicks elisp-slime-nav dumb-jump define-word dash-functional company-ghci company-ghc column-enforce-mode color-identifiers-mode cmm-mode clean-aindent-mode cask-mode buttercup auto-highlight-symbol auto-compile anaphora aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line))))
+    (pollen-mode w3m eval-sexp-fu xterm-color ws-butler window-numbering which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org sx spray speed-type spacemacs-theme spaceline smex smeargle slime slack shell-pop restart-emacs ranger rainbow-mode rainbow-identifiers rainbow-delimiters quelpa popwin persp-mode pcre2el paradox orgit org-projectile org-present org-pomodoro org-plus-contrib org-download org-bullets open-junk-file neotree nameless multi-term move-text monokai-theme mmm-mode minesweeper markdown-toc magit-gitflow lorem-ipsum linum-relative link-hint lentic intero info+ indent-guide ido-vertical-mode icicles hungry-delete htmlize hlint-refactor hl-todo hindent highlight-parentheses highlight-numbers highlight-indentation help-fns+ helm-themes helm-swoop helm-projectile helm-mode-manager helm-make helm-hoogle helm-gitignore helm-flx helm-descbinds helm-ag haskell-snippets google-translate golden-ratio gnuplot gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link gh-md geiser flycheck-pos-tip flycheck-haskell flx-ido fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-snipe evil-search-highlight-persist evil-paredit evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-magit evil-lisp-state evil-indent-plus evil-iedit-state evil-exchange evil-escape evil-ediff evil-args evil-anzu eshell-z eshell-prompt-extras esh-help erc-yt erc-view-log erc-social-graph erc-image erc-hl-nicks elisp-slime-nav dumb-jump define-word dash-functional company-ghci company-ghc column-enforce-mode color-identifiers-mode cmm-mode clean-aindent-mode cask-mode buttercup auto-highlight-symbol auto-compile anaphora aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
