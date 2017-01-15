@@ -75,13 +75,10 @@ mk () {
 
 # adding aliases
 new-alias () {
-    echo "alias $@" >> ~/lib/aliases
-}
-
-inew-alias () {
-    echo "Description: "
+    printf "Description: "
     read DESC
     echo -e "\n# $DESC\nalias $@" >> ~/lib/aliases
+    source ~/lib/aliases # reload aliases
 }
 
 #########
