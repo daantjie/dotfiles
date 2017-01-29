@@ -1,0 +1,101 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%                                                %%
+%%  %%%%%%% %%   %%   %% %%%%%%  %%   %%  %%%%%%  %%
+%%  %%      %%    %% %%  %%   %% %%%%%%% %%%%     %%
+%%  %%    % %%     %%%   %%%%%%  %%   %%   %%%%%  %%
+%%  %%%%%%% %%%%%% %%%   %%      %%   %% %%%%%%   %%
+%%                                                %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% POSSIBLE CHARACTERS
+%% ⋄⧫◊☉☀⋆✡✯⧦□█❧⦿‣⁍⁌〔〕〘〙〖〗【】（）｛｝ ☞  ☜
+%% ⬠⬟⭔⭓⬢⬡
+%% ⟶{danger}
+%% A dangerous paragraph.
+%% ⟵{danger}
+%% ⟹{danger}
+%% A dangerous paragraph.
+%% ⟸{danger}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%
+%% ENVIRONMENTS
+
+\catcode`\⟶=13
+\catcode`\⟵=13
+\def⟶{\begin}
+\def⟵{\end}
+
+%%%%%%%%%
+%% QUOTES
+
+\catcode`\‘=13
+\catcode`\’=13
+\def‘{`}
+\def’{'}
+
+%%%%%%%%%%%%%
+%% STATEMENTS
+
+\catcode`\⟹=13
+\catcode`\⟸=13
+\def⟹{\begin{statement}}
+\def⟸{\end{statement}}
+
+%%%%%%%%%%%%%%%%%%%
+%% STAGE DIRECTIONS
+
+\def\glyphstartstage#1{%
+  \begin{flushright}%
+    {\rmfamily[}%
+      \begingroup%
+      \em#1}
+\def\glyphstopstage{%
+  \endgroup%
+  {\rmfamily]}%
+  \end{flushright}}
+\catcode`\［=13
+\catcode`\］=13
+\def［{\glyphstartstage}
+\def］{\glyphstopstage}
+
+%%%%%%%%%%%
+%% EMPHASIS
+
+\def\glyphstartemphasis{%
+  \begingroup%
+  \em%
+  \def\glyphemphasis{\glyphstopemphasis}}
+\def\glyphstopemphasis{\endgroup} % closing the group will fix the definition
+\def\glyphemphasis{\glyphstartemphasis}
+\catcode`\★=13
+\def★{\glyphemphasis}
+
+%%%%%%%%
+%% LISTS
+
+\catcode`\▲=13
+\catcode`\▼=13
+\catcode`\△=13
+\catcode`\▽=13
+\catcode`\•=13
+\def▼{\begin{enumerate}}
+\def▲{\end{enumerate}}
+\def▽{\begin{itemize}}
+\def△{\end{itemize}}
+\def•{\item}
+
+\catcode`\…=13
+\def…{\ldots}
+
+\catcode`\☛=13
+\catcode`\☚=13
+\let☛=\label
+\newcommand\numberthis{\addtocounter{equation}{1}\tag{\theequation}}
+\def☚#1{\numberthis\label{#1}}
+
+\catcode`\∴=13
+\catcode`\∵=13
+\def∴{\raisebox{0.75pt}{$\therefore$}}
+\def∵{\raisebox{0.75pt}{$\because$}}
