@@ -49,7 +49,7 @@ alias uuuuuuuuuuuuuuuu='cd ../../../../../../../../../../../../../../../..'
 alias uuuuuuuuuuuuuuuuu='cd ../../../../../../../../../../../../../../../../..'
 
 # running Emacs with a file
-alias e='ruhig emacsclient -t' # In a terminal...
+alias e='emacsclient -t' # In a terminal...
 alias ee='ruhig emacsclient -c' # ...or in the GUI.
 
 # start redshift
@@ -71,3 +71,27 @@ alias stm='find ~/.steam/root/ \( \
                       -name "libgpg-error.so*" \) \
                       -print -delete \
                  && steam'
+
+# mount a FAT32 drive
+alias eins='sudo mount -t vfat /dev/sdb1 /mnt/eins'
+# unmount /mnt/eins
+alias ueins='sudo umount /mnt/eins'
+
+# run evince quietly
+alias ne='n evince'
+
+# convert to pointfree haskell
+alias pf='pointfree --stdin'
+
+# Make directory without 'cd'ing into it
+alias mkd='mkdir'
+
+# pipe output to clipboard
+alias xc='xclip -selection'
+
+# pipe to clipboard
+alias xc='xclip -selection c'
+
+
+# use the `hub` wrapper for git
+alias git='hub'
