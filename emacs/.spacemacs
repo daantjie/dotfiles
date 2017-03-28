@@ -16,7 +16,10 @@ values."
    ;; List of configuration layers to load. If it is the symbol `all' instead
    ;; of a list then all discovered layers will be installed.
    dotspacemacs-configuration-layers
-   '(;; ----------------------------------------------------------------
+   '(
+     php
+     yaml
+     vimscript;; ----------------------------------------------------------------
      ;; Example of useful layers you may want to use right away.
      ;; Uncomment some layer names and press <SPC f e R> (Vim style) or
      ;; <M-m f e R> (Emacs style) to install them.
@@ -25,14 +28,18 @@ values."
      ;; better-defaults
      colors
      common-lisp
+     coq
      emacs-lisp
      erc
      evil-snipe
      haskell
+     idris
      git
+     latex
      markdown
      org
      ranger
+     selectric
      (shell :variables
             shell-default-shell 'eshell
             shell-default-height 30
@@ -61,6 +68,7 @@ values."
                                       paredit
                                       pollen-mode
                                       s
+                                      sage-shell-mode
                                       smex
                                       speed-type
                                       spray
@@ -134,7 +142,9 @@ values."
    dotspacemacs-colorize-cursor-according-to-state t
    ;; Default font. `powerline-scale' allows to quickly tweak the mode-line
    ;; size to make separators look not too crappy.
-   dotspacemacs-default-font '("Inconsolata"
+   dotspacemacs-default-font '(;;"Unifont"
+                               ;;:size 18
+                               "Inconsolata"
                                :size 18
                                ;; "Fira Code"
                                ;; :size 15
@@ -279,7 +289,8 @@ executes.
 before packages are loaded. If you are unsure, you should try in setting them in
 `dotspacemacs/user-config' first."
   (setq-default evil-search-module 'evil-search)
-
+  (load-file (let ((coding-system-for-read 'utf-8))
+               (shell-command-to-string "agda-mode locate")))
   (add-to-list 'load-path (expand-file-name "private/local/pollen-mode" user-emacs-directory))
   (autoload 'pollen-mode "pollen" "A major mode for the pollen preprocessor." t))
 ;; ****************************
@@ -297,7 +308,8 @@ you should place your code here."
                 inferior-lisp-program "/usr/bin/sbcl"
                 geiser-active-implementations '(chicken guile)
                 nameless-global-aliases '(("" . "bedlam"))
-                recentf-max-saved-items 50)
+                recentf-max-saved-items 50
+                TeX-master nil)
 
   (yas-global-mode)
 
@@ -305,10 +317,11 @@ you should place your code here."
     (global-set-key (kbd keys) f-sym))
 
   (load-file "~/.emacs.d/private/local/bedlam/bedlam.el")
+  (load-file "~/.emacs.d/private/local/proof-general/generic/proof-site.el")
   (daio/bind "C-c C-e" 'bedlam-eval-and-replace)
   (daio/bind "C-*" 'bedlam-eval-and-replace)
   (daio/bind "C-%" 'bedlam-insert-date)
-  (daio/bind "C-h" 'spacemacs/toggle-holy-mode)
+  ;; (daio/bind "C-h" 'spacemacs/toggle-holy-mode)
 
   (defun daio/new-private-package (name)
     (find-file (f-join (f-long user-emacs-directory) "private" "local" name)))
@@ -395,6 +408,22 @@ you should place your code here."
             (set-buffer-modified-p nil))))))
   (spacemacs/set-leader-keys "fm" #'daio/rename-file-and-buffer)
 
+  (defun daio/org-meta-return (orig)
+    (evil-force-normal-state)
+    (org-end-of-line)
+    (funcall orig)
+    (evil-append 1))
+  (advice-add 'org-meta-return :around 'daio/org-meta-return)
+
+  (defun daio/wrap-end (char)
+    (interactive "c")
+    (save-excursion
+      (insert char)
+      (end-of-line)
+      (insert char)))
+
+  (daio/bind "M-*" 'daio/wrap-end)
+
   ;; Default behaviour for `s' is overridden by both `evil-surround' and
   ;; `evil-snipe' -- so I map it to `-'.
   (defun daio/normalize-org-header-size ()
@@ -413,6 +442,13 @@ you should place your code here."
   (advice-add 'spacemacs/cycle-spacemacs-theme :after #'daio/normalize-org-header-size)
   (define-globalized-minor-mode global-fci-mode fci-mode (lambda () (fci-mode 1)))
   (global-fci-mode 1)
+
+  (defun daio/normalise-font-latex-verbatim-face ()
+    "Set the verbatim font in latex to something readable."
+    (set-face-attribute 'font-latex-verbatim-face nil
+                        :font "Inconsolata"
+                        :weight 'normal
+                        :height 1.0))
 
   ;;; MAKING ELISP BETTER
 
@@ -442,6 +478,42 @@ you should place your code here."
     (set sym (read (thing-at-point 'sexp))))
 
   ;; (daio/bind "C-$" 'daio/read-last-sexp-and-set-to)
+
+  (defun daio/haskell-o ()
+    (interactive)
+    (end-of-line)
+    (haskell-indentation-newline-and-indent)
+    (evil-insert 1))
+
+  (defvar daio/haskell-mode-map
+    (let ((map (make-sparse-keymap)))
+      (evil-define-key 'normal map "o" 'daio/haskell-o)
+      (daio/bind "M-s-." 'daio/insert-angle-pair)
+      map))
+  
+  (evil-leader/set-key-for-mode 'haskell-mode "i" 'hindent-reformat-buffer)
+
+  (define-minor-mode daio/haskell-mode
+    "Shadowings for Haskell Mode"
+    :lighter "ð"
+    :keymap daio/haskell-mode-map)
+
+  (defun daio/insert-angle-pair ()
+    (interactive)
+    (insert "<>")
+    (backward-char))
+
+  (bedlam-add-hooks
+      (haskell-mode-hook)
+    (daio/haskell-mode
+     intero-mode
+     haskell-indentation-mode))
+
+
+  (bedlam-add-hooks
+      (latex-mode-hook)
+    (electric-pair-mode
+     daio/normalise-font-latex-verbatim-face))
 
   (defun daio/line-length () (length (thing-at-point 'line t)))
 
@@ -504,6 +576,22 @@ you should place your code here."
   (daio/bind-char "s-C-=" ?\⟹)
   (daio/bind-char "s-M-=" ?\⟸)
 
+  (daio/bind-char "s-M--" ?\☛)
+  (daio/bind-char "s-M-_" ?\☚)
+
+  (flycheck-define-checker proselint
+    "A linter for prose."
+    :command ("proselint" source-inplace)
+    :error-patterns
+    ((warning line-start (file-name) ":" line ":" column ": "
+              (id (one-or-more (not (any " "))))
+              (message (one-or-more not-newline)
+                       (zero-or-more "\n" (any " ") (one-or-more not-newline)))
+              line-end))
+    :modes (text-mode markdown-mode gfm-mode))
+  (add-to-list 'flycheck-checkers 'proselint)
+
+
   (add-to-list 'emacs-lisp-mode-hook 'daio/pretty-functional)
   ;; (add-to-list 'emacs-lisp-mode-hook (lambda ()
   ;;                                      (require 'buttercup)))
@@ -557,10 +645,52 @@ you should place your code here."
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(ansi-color-names-vector
+   ["#32302F" "#FB4934" "#B8BB26" "#FABD2F" "#83A598" "#D3869B" "#17CCD5" "#EBDBB2"])
+ '(compilation-message-face (quote default))
  '(evil-want-Y-yank-to-eol t)
+ '(fci-rule-color "#20240E")
+ '(highlight-changes-colors (quote ("#FD5FF0" "#AE81FF")))
+ '(highlight-tail-colors
+   (quote
+    (("#20240E" . 0)
+     ("#679A01" . 20)
+     ("#4BBEAE" . 30)
+     ("#1DB4D0" . 50)
+     ("#9A8F21" . 60)
+     ("#A75B00" . 70)
+     ("#F309DF" . 85)
+     ("#20240E" . 100))))
+ '(magit-diff-use-overlays nil)
  '(package-selected-packages
    (quote
-    (pollen-mode w3m eval-sexp-fu xterm-color ws-butler window-numbering which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org sx spray speed-type spacemacs-theme spaceline smex smeargle slime slack shell-pop restart-emacs ranger rainbow-mode rainbow-identifiers rainbow-delimiters quelpa popwin persp-mode pcre2el paradox orgit org-projectile org-present org-pomodoro org-plus-contrib org-download org-bullets open-junk-file neotree nameless multi-term move-text monokai-theme mmm-mode minesweeper markdown-toc magit-gitflow lorem-ipsum linum-relative link-hint lentic intero info+ indent-guide ido-vertical-mode icicles hungry-delete htmlize hlint-refactor hl-todo hindent highlight-parentheses highlight-numbers highlight-indentation help-fns+ helm-themes helm-swoop helm-projectile helm-mode-manager helm-make helm-hoogle helm-gitignore helm-flx helm-descbinds helm-ag haskell-snippets google-translate golden-ratio gnuplot gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link gh-md geiser flycheck-pos-tip flycheck-haskell flx-ido fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-snipe evil-search-highlight-persist evil-paredit evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-magit evil-lisp-state evil-indent-plus evil-iedit-state evil-exchange evil-escape evil-ediff evil-args evil-anzu eshell-z eshell-prompt-extras esh-help erc-yt erc-view-log erc-social-graph erc-image erc-hl-nicks elisp-slime-nav dumb-jump define-word dash-functional company-ghci company-ghc column-enforce-mode color-identifiers-mode cmm-mode clean-aindent-mode cask-mode buttercup auto-highlight-symbol auto-compile anaphora aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line))))
+    (phpunit phpcbf php-extras php-auto-yasnippets drupal-mode php-mode sage-shell-mode deferred idris-mode prop-menu solarized-theme darktooth-theme company-coq company-math math-symbol-lists auctex-latexmk auctex yaml-mode selectric-mode vimrc-mode dactyl-mode slime-company hide-comnt pollen-mode w3m eval-sexp-fu xterm-color ws-butler window-numbering which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org sx spray speed-type spacemacs-theme spaceline smex smeargle slime slack shell-pop restart-emacs ranger rainbow-mode rainbow-identifiers rainbow-delimiters quelpa popwin persp-mode pcre2el paradox orgit org-projectile org-present org-pomodoro org-plus-contrib org-download org-bullets open-junk-file neotree nameless multi-term move-text monokai-theme mmm-mode minesweeper markdown-toc magit-gitflow lorem-ipsum linum-relative link-hint lentic intero info+ indent-guide ido-vertical-mode icicles hungry-delete htmlize hlint-refactor hl-todo hindent highlight-parentheses highlight-numbers highlight-indentation help-fns+ helm-themes helm-swoop helm-projectile helm-mode-manager helm-make helm-hoogle helm-gitignore helm-flx helm-descbinds helm-ag haskell-snippets google-translate golden-ratio gnuplot gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link gh-md geiser flycheck-pos-tip flycheck-haskell flx-ido fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-snipe evil-search-highlight-persist evil-paredit evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-magit evil-lisp-state evil-indent-plus evil-iedit-state evil-exchange evil-escape evil-ediff evil-args evil-anzu eshell-z eshell-prompt-extras esh-help erc-yt erc-view-log erc-social-graph erc-image erc-hl-nicks elisp-slime-nav dumb-jump define-word dash-functional company-ghci company-ghc column-enforce-mode color-identifiers-mode cmm-mode clean-aindent-mode cask-mode buttercup auto-highlight-symbol auto-compile anaphora aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line)))
+ '(pos-tip-background-color "#36473A")
+ '(pos-tip-foreground-color "#FFFFC8")
+ '(vc-annotate-background nil)
+ '(vc-annotate-color-map
+   (quote
+    ((20 . "#F92672")
+     (40 . "#CF4F1F")
+     (60 . "#C26C0F")
+     (80 . "#E6DB74")
+     (100 . "#AB8C00")
+     (120 . "#A18F00")
+     (140 . "#989200")
+     (160 . "#8E9500")
+     (180 . "#A6E22E")
+     (200 . "#729A1E")
+     (220 . "#609C3C")
+     (240 . "#4E9D5B")
+     (260 . "#3C9F79")
+     (280 . "#A1EFE4")
+     (300 . "#299BA6")
+     (320 . "#2896B5")
+     (340 . "#2790C3")
+     (360 . "#66D9EF"))))
+ '(vc-annotate-very-old-color nil)
+ '(weechat-color-list
+   (unspecified "#272822" "#20240E" "#F70057" "#F92672" "#86C30D" "#A6E22E" "#BEB244" "#E6DB74" "#40CAE4" "#66D9EF" "#FB35EA" "#FD5FF0" "#74DBCD" "#A1EFE4" "#F8F8F2" "#F8F8F0")))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
