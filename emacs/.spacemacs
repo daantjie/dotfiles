@@ -17,6 +17,7 @@ values."
    ;; of a list then all discovered layers will be installed.
    dotspacemacs-configuration-layers
    '(
+     html
      php
      yaml
      vimscript;; ----------------------------------------------------------------
@@ -57,22 +58,27 @@ values."
                                       buttercup
                                       cask-mode
                                       dash-functional
+                                      evil-numbers
                                       evil-paredit
                                       eyebrowse
                                       f
+                                      feature-mode
                                       geiser
                                       icicles
                                       lentic
+                                      lispy
                                       minesweeper
                                       nameless
                                       paredit
                                       pollen-mode
                                       s
                                       sage-shell-mode
+                                      scribble-mode
                                       smex
                                       speed-type
                                       spray
                                       sx
+                                      vertigo
                                       w3m)
    ;; A list of packages and/or extensions that will not be install and loaded.
    dotspacemacs-excluded-packages '(eval-sexp-fu)
@@ -306,22 +312,30 @@ explicitly specified that a variable should be set before a package is loaded,
 you should place your code here."
   (setq-default evil-escape-key-sequence "jk"
                 inferior-lisp-program "/usr/bin/sbcl"
-                geiser-active-implementations '(chicken guile)
+                geiser-active-implementations '(chicken guile racket)
                 nameless-global-aliases '(("" . "bedlam"))
                 recentf-max-saved-items 50
-                TeX-master nil)
+                TeX-master nil
+                intero-package-version "0.1.20"
+                web-mode-markup-indent-offset 2
+                web-mode-css-indent-offset 2
+                web-mode-code-indent-offset 2)
+
+  (load-file "~/.emacs.d/private/local/bedlam/bedlam.el")
+  (load-file "~/.emacs.d/private/local/evil-hardcore/evil-hardcore.el")
+  (load-file "~/.emacs.d/private/local/proof-general/generic/proof-site.el")
 
   (yas-global-mode)
 
   (defun daio/bind (keys f-sym)
     (global-set-key (kbd keys) f-sym))
 
-  (load-file "~/.emacs.d/private/local/bedlam/bedlam.el")
-  (load-file "~/.emacs.d/private/local/proof-general/generic/proof-site.el")
   (daio/bind "C-c C-e" 'bedlam-eval-and-replace)
   (daio/bind "C-*" 'bedlam-eval-and-replace)
   (daio/bind "C-%" 'bedlam-insert-date)
   ;; (daio/bind "C-h" 'spacemacs/toggle-holy-mode)
+
+  (evil-hardcore-global-mode)
 
   (defun daio/new-private-package (name)
     (find-file (f-join (f-long user-emacs-directory) "private" "local" name)))
@@ -498,6 +512,22 @@ you should place your code here."
     :lighter "ð"
     :keymap daio/haskell-mode-map)
 
+  (defun daio/geiser-eval-sexp-at-point (arg)
+    (interactive "p")
+    (forward-char)
+    (geiser-eval-last-sexp nil)
+    (backward-char))
+
+  (defvar daio/geiser-mode-map
+    (let ((map (make-sparse-keymap)))
+      (daio/bind "C-x C-c" 'daio/geiser-eval-sexp-at-point)
+      map))
+
+  (define-minor-mode daio/geiser-mode
+    "Shadowings for Geiser/Scheme Mode"
+    :lighter "ð"
+    :keymap daio/geiser-mode-map)
+
   (defun daio/insert-angle-pair ()
     (interactive)
     (insert "<>")
@@ -508,7 +538,6 @@ you should place your code here."
     (daio/haskell-mode
      intero-mode
      haskell-indentation-mode))
-
 
   (bedlam-add-hooks
       (latex-mode-hook)
@@ -664,7 +693,7 @@ you should place your code here."
  '(magit-diff-use-overlays nil)
  '(package-selected-packages
    (quote
-    (phpunit phpcbf php-extras php-auto-yasnippets drupal-mode php-mode sage-shell-mode deferred idris-mode prop-menu solarized-theme darktooth-theme company-coq company-math math-symbol-lists auctex-latexmk auctex yaml-mode selectric-mode vimrc-mode dactyl-mode slime-company hide-comnt pollen-mode w3m eval-sexp-fu xterm-color ws-butler window-numbering which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org sx spray speed-type spacemacs-theme spaceline smex smeargle slime slack shell-pop restart-emacs ranger rainbow-mode rainbow-identifiers rainbow-delimiters quelpa popwin persp-mode pcre2el paradox orgit org-projectile org-present org-pomodoro org-plus-contrib org-download org-bullets open-junk-file neotree nameless multi-term move-text monokai-theme mmm-mode minesweeper markdown-toc magit-gitflow lorem-ipsum linum-relative link-hint lentic intero info+ indent-guide ido-vertical-mode icicles hungry-delete htmlize hlint-refactor hl-todo hindent highlight-parentheses highlight-numbers highlight-indentation help-fns+ helm-themes helm-swoop helm-projectile helm-mode-manager helm-make helm-hoogle helm-gitignore helm-flx helm-descbinds helm-ag haskell-snippets google-translate golden-ratio gnuplot gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link gh-md geiser flycheck-pos-tip flycheck-haskell flx-ido fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-snipe evil-search-highlight-persist evil-paredit evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-magit evil-lisp-state evil-indent-plus evil-iedit-state evil-exchange evil-escape evil-ediff evil-args evil-anzu eshell-z eshell-prompt-extras esh-help erc-yt erc-view-log erc-social-graph erc-image erc-hl-nicks elisp-slime-nav dumb-jump define-word dash-functional company-ghci company-ghc column-enforce-mode color-identifiers-mode cmm-mode clean-aindent-mode cask-mode buttercup auto-highlight-symbol auto-compile anaphora aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line)))
+    (feature-mode vertigo lispy zoutline swiper ivy scribble-mode web-mode tagedit slim-mode scss-mode sass-mode pug-mode less-css-mode helm-css-scss haml-mode emmet-mode phpunit phpcbf php-extras php-auto-yasnippets drupal-mode php-mode sage-shell-mode deferred idris-mode prop-menu solarized-theme darktooth-theme company-coq company-math math-symbol-lists auctex-latexmk auctex yaml-mode selectric-mode vimrc-mode dactyl-mode slime-company hide-comnt pollen-mode w3m eval-sexp-fu xterm-color ws-butler window-numbering which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org sx spray speed-type spacemacs-theme spaceline smex smeargle slime slack shell-pop restart-emacs ranger rainbow-mode rainbow-identifiers rainbow-delimiters quelpa popwin persp-mode pcre2el paradox orgit org-projectile org-present org-pomodoro org-plus-contrib org-download org-bullets open-junk-file neotree nameless multi-term move-text monokai-theme mmm-mode minesweeper markdown-toc magit-gitflow lorem-ipsum linum-relative link-hint lentic intero info+ indent-guide ido-vertical-mode icicles hungry-delete htmlize hlint-refactor hl-todo hindent highlight-parentheses highlight-numbers highlight-indentation help-fns+ helm-themes helm-swoop helm-projectile helm-mode-manager helm-make helm-hoogle helm-gitignore helm-flx helm-descbinds helm-ag haskell-snippets google-translate golden-ratio gnuplot gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link gh-md geiser flycheck-pos-tip flycheck-haskell flx-ido fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-snipe evil-search-highlight-persist evil-paredit evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-magit evil-lisp-state evil-indent-plus evil-iedit-state evil-exchange evil-escape evil-ediff evil-args evil-anzu eshell-z eshell-prompt-extras esh-help erc-yt erc-view-log erc-social-graph erc-image erc-hl-nicks elisp-slime-nav dumb-jump define-word dash-functional company-ghci company-ghc column-enforce-mode color-identifiers-mode cmm-mode clean-aindent-mode cask-mode buttercup auto-highlight-symbol auto-compile anaphora aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line)))
  '(pos-tip-background-color "#36473A")
  '(pos-tip-foreground-color "#FFFFC8")
  '(vc-annotate-background nil)
