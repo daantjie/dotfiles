@@ -92,6 +92,13 @@ alias xc='xclip -selection'
 # pipe to clipboard
 alias xc='xclip -selection c'
 
-
 # use the `hub` wrapper for git
 alias git='hub'
+
+alias ging='ping -c 3 google.com'
+
+# open all .pdfs in a dir
+alias nd='ne *.pdf'
+
+# Connect to wifi
+alias wifi='sudo wifi-menu wlp1s0'
