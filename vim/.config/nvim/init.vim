@@ -94,6 +94,7 @@
   " NeoBundle 'vim-scripts/CSApprox'
   " NeoBundle 'fmoralesc/vim-tutor-mode'
   NeoBundle 'idris-hackers/idris-vim'
+  NeoBundle 'fasiha/pollen.vim'
   call neobundle#end()
 
 " Required:
