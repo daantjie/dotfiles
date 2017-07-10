@@ -6,58 +6,46 @@
   "Configuration Layers declaration.
 You should not put any user code in this function besides modifying the variable
 values."
-  (setq-default ;; Base distribution to use. This is a layer contained in the directory
-   ;; `+distribution'. For now available distributions are `spacemacs-base'
-   ;; or `spacemacs'. (default 'spacemacs)
+  (setq-default
+
    dotspacemacs-distribution 'spacemacs
-   ;; List of additional paths where to look for configuration layers.
-   ;; Paths must have a trailing slash (i.e. `~/.mycontribs/')
+
    dotspacemacs-configuration-layer-path '()
-   ;; List of configuration layers to load. If it is the symbol `all' instead
-   ;; of a list then all discovered layers will be installed.
-   dotspacemacs-configuration-layers
-   '(
-     html
-     php
-     yaml
-     vimscript;; ----------------------------------------------------------------
-     ;; Example of useful layers you may want to use right away.
-     ;; Uncomment some layer names and press <SPC f e R> (Vim style) or
-     ;; <M-m f e R> (Emacs style) to install them.
-     ;; ----------------------------------------------------------------
-     ;; auto-completion
-     ;; better-defaults
-     colors
-     common-lisp
-     coq
-     emacs-lisp
-     erc
-     evil-snipe
-     haskell
-     idris
-     git
-     latex
-     markdown
-     org
-     ranger
-     selectric
-     (shell :variables
-            shell-default-shell 'eshell
-            shell-default-height 30
-            shell-default-position 'bottom)
-     slack
-     ;; spell-checking
-     syntax-checking
-     ;; version-control
-     )
-   ;; List of additional packages that will be installed without being
-   ;; wrapped in a layer. If you need some configuration for these
-   ;; packages, then consider creating a layer. You can also put the
-   ;; configuration in `dotspacemacs/user-config'.
+
+   dotspacemacs-configuration-layers '(
+                                       python
+                                       pythonjavascript
+                                       html
+                                       php
+                                       yaml
+                                       vimscript
+                                       colors
+                                       common-lisp
+                                       coq
+                                       emacs-lisp
+                                       erc
+                                       evil-snipe
+                                       haskell
+                                       idris
+                                       git
+                                       latex
+                                       markdown
+                                       org
+                                       ranger
+                                       selectric
+                                       (shell :variables
+                                              shell-default-shell 'eshell
+                                              shell-default-height 30
+                                              shell-default-position 'bottom)
+                                       slack
+                                       syntax-checking)
+
    dotspacemacs-additional-packages '(anaphora
                                       buttercup
                                       cask-mode
+                                      company-pollen
                                       dash-functional
+                                      evil-lispy
                                       evil-numbers
                                       evil-paredit
                                       eyebrowse
@@ -78,13 +66,12 @@ values."
                                       speed-type
                                       spray
                                       sx
+                                      tree-mode
                                       vertigo
                                       w3m)
-   ;; A list of packages and/or extensions that will not be install and loaded.
+
    dotspacemacs-excluded-packages '(eval-sexp-fu)
-   ;; If non-nil spacemacs will delete any orphan packages, i.e. packages that
-   ;; are declared in a layer which is not a member of
-   ;; the list `dotspacemacs-configuration-layers'. (default t)
+
    dotspacemacs-delete-orphan-packages t))
 ;; **************************
 ;; END OF dotspacemacs/layers
@@ -96,47 +83,16 @@ This function is called at the very startup of Spacemacs initialization
 before layers configuration.
 You should not put any user code in there besides modifying the variable
 values."
-  ;; This setq-default sexp is an exhaustive list of all the supported
-  ;; spacemacs settings.
   (setq-default
-   ;; If non nil ELPA repositories are contacted via HTTPS whenever it's
-   ;; possible. Set it to nil if you have no way to use HTTPS in your
-   ;; environment, otherwise it is strongly recommended to let it set to t.
-   ;; This variable has no effect if Emacs is launched with the parameter
-   ;; `--insecure' which forces the value of this variable to nil.
-   ;; (default t)
-   dotspacemacs-elpa-https nil
-   ;; Maximum allowed time in seconds to contact an ELPA repository.
+   dotspacemacs-elpa-https t
    dotspacemacs-elpa-timeout 5
-   ;; If non nil then spacemacs will check for updates at startup
-   ;; when the current branch is not `develop'. (default t)
    dotspacemacs-check-for-update t
-   ;; One of `vim', `emacs' or `hybrid'. Evil is always enabled but if the
-   ;; variable is `emacs' then the `holy-mode' is enabled at startup. `hybrid'
-   ;; uses emacs key bindings for vim's insert mode, but otherwise leaves evil
-   ;; unchanged. (default 'vim)
    dotspacemacs-editing-style 'vim
-   ;; If non nil output loading progress in `*Messages*' buffer. (default nil)
    dotspacemacs-verbose-loading nil
-   ;; Specify the startup banner. Default value is `official', it displays
-   ;; the official spacemacs logo. An integer value is the index of text
-   ;; banner, `random' chooses a random text banner in `core/banners'
-   ;; directory. A string value must be a path to an image format supported
-   ;; by your Emacs build.
-   ;; If the value is nil then no banner is displayed. (default 'official)
    dotspacemacs-startup-banner 'official
-   ;; List of items to show in the startup buffer. If nil it is disabled.
-   ;; Possible values are: `recents' `bookmarks' `projects'.
-   ;; (default '(recents projects))
-   dotspacemacs-startup-lists '(recents projects)
-   ;; Number of recent files to show in the startup buffer. Ignored if
-   ;; `dotspacemacs-startup-lists' doesn't include `recents'. (default 5)
+   dotspacemacs-startup-lists '(recents projects) ;Possible values are: `recents' `bookmarks' `projects'.
    dotspacemacs-startup-recent-list-size 5
-   ;; Default major mode of the scratch buffer (default `text-mode')
    dotspacemacs-scratch-mode 'text-mode
-   ;; List of themes, the first of the list is loaded when spacemacs starts.
-   ;; Press <SPC> T n to cycle to the next theme in the list (works great
-   ;; with 2 themes variants, one dark and one light)
    dotspacemacs-themes '(monokai
                          darktooth
                          spacemacs-dark
@@ -144,10 +100,7 @@ values."
                          solarized-dark
                          leuven
                          zenburn)
-   ;; If non nil the cursor color matches the state color in GUI Emacs.
    dotspacemacs-colorize-cursor-according-to-state t
-   ;; Default font. `powerline-scale' allows to quickly tweak the mode-line
-   ;; size to make separators look not too crappy.
    dotspacemacs-default-font '(;;"Unifont"
                                ;;:size 18
                                "Inconsolata"
@@ -157,46 +110,21 @@ values."
                                :weight normal
                                :width normal
                                :powerline-scale 1.2)
-   ;; The leader key
    dotspacemacs-leader-key "SPC"
-   ;; The leader key accessible in `emacs state' and `insert state'
-   ;; (default "M-m")
    dotspacemacs-emacs-leader-key "M-m"
-   ;; Major mode leader key is a shortcut key which is the equivalent of
-   ;; pressing `<leader> m`. Set it to `nil` to disable it. (default ",")
    dotspacemacs-major-mode-leader-key ","
-   ;; Major mode leader key accessible in `emacs state' and `insert state'.
-   ;; (default "C-M-m)
    dotspacemacs-major-mode-emacs-leader-key "C-M-m"
-   ;; These variables control whether separate commands are bound in the GUI to
-   ;; the key pairs C-i, TAB and C-m, RET.
-   ;; Setting it to a non-nil value, allows for separate commands under <C-i>
-   ;; and TAB or <C-m> and RET.
-   ;; In the terminal, these pairs are generally indistinguishable, so this only
-   ;; works in the GUI. (default nil)
    dotspacemacs-distinguish-gui-tab nil
-   ;; (Not implemented) dotspacemacs-distinguish-gui-ret nil
-   ;; The command key used for Evil commands (ex-commands) and
-   ;; Emacs commands (M-x).
-   ;; By default the command key is `:' so ex-commands are executed like in Vim
-   ;; with `:' and Emacs commands are executed with `<leader> :'.
    dotspacemacs-command-key ":"
-   ;; If non nil `Y' is remapped to `y$'. (default t)
    dotspacemacs-remap-Y-to-y$ t
-   ;; Name of the default layout (default "Default")
    dotspacemacs-default-layout-name "Default"
-   ;; If non nil the default layout name is displayed in the mode-line.
-   ;; (default nil)
    dotspacemacs-display-default-layout nil
-   ;; If non nil then the last auto saved layouts are resume automatically upon
-   ;; start. (default nil)
    dotspacemacs-auto-resume-layouts nil
    ;; Location where to auto-save files. Possible values are `original' to
    ;; auto-save the file in-place, `cache' to auto-save the file to another
    ;; file stored in the cache directory and `nil' to disable auto-saving.
    ;; (default 'cache)
    dotspacemacs-auto-save-file-location 'cache
-   ;; Maximum number of rollback slots to keep in the cache. (default 5)
    dotspacemacs-max-rollback-slots 5
    ;; If non nil then `ido' replaces `helm' for some commands. For now only
    ;; `find-files' (SPC f f), `find-spacemacs-file' (SPC f e s), and
@@ -213,76 +141,34 @@ values."
    ;; If non nil the paste micro-state is enabled. When enabled pressing `p`
    ;; several times cycle between the kill ring content. (default nil)
    dotspacemacs-enable-paste-micro-state nil
-   ;; Which-key delay in seconds. The which-key buffer is the popup listing
-   ;; the commands bound to the current keystroke sequence. (default 0.4)
    dotspacemacs-which-key-delay 0.4
    ;; Which-key frame position. Possible values are `right', `bottom' and
    ;; `right-then-bottom'. right-then-bottom tries to display the frame to the
    ;; right; if there is insufficient space it displays it at the bottom.
    ;; (default 'bottom)
    dotspacemacs-which-key-position 'bottom
-   ;; If non nil a progress bar is displayed when spacemacs is loading. This
-   ;; may increase the boot time on some systems and emacs builds, set it to
-   ;; nil to boost the loading time. (default t)
    dotspacemacs-loading-progress-bar t
-   ;; If non nil the frame is fullscreen when Emacs starts up. (default nil)
-   ;; (Emacs 24.4+ only)
    dotspacemacs-fullscreen-at-startup nil
-   ;; If non nil `spacemacs/toggle-fullscreen' will not use native fullscreen.
-   ;; Use to disable fullscreen animations in OSX. (default nil)
    dotspacemacs-fullscreen-use-non-native nil
-   ;; If non nil the frame is maximized when Emacs starts up.
-   ;; Takes effect only if `dotspacemacs-fullscreen-at-startup' is nil.
-   ;; (default nil) (Emacs 24.4+ only)
    dotspacemacs-maximized-at-startup nil
-   ;; A value from the range (0..100), in increasing opacity, which describes
-   ;; the transparency level of a frame when it's active or selected.
-   ;; Transparency can be toggled through `toggle-transparency'. (default 90)
    dotspacemacs-active-transparency 90
-   ;; A value from the range (0..100), in increasing opacity, which describes
-   ;; the transparency level of a frame when it's inactive or deselected.
-   ;; Transparency can be toggled through `toggle-transparency'. (default 90)
    dotspacemacs-inactive-transparency 90
-   ;; If non nil unicode symbols are displayed in the mode line. (default t)
    dotspacemacs-mode-line-unicode-symbols nil
-   ;; If non nil smooth scrolling (native-scrolling) is enabled. Smooth
-   ;; scrolling overrides the default behavior of Emacs which recenters the
-   ;; point when it reaches the top or bottom of the screen. (default t)
    dotspacemacs-smooth-scrolling t
-   ;; If non nil line numbers are turned on in all `prog-mode' and `text-mode'
-   ;; derivatives. If set to `relative', also turns on relative line numbers.
-   ;; (default nil)
    dotspacemacs-line-numbers 'relative
-   ;; If non-nil smartparens-strict-mode will be enabled in programming modes.
-   ;; (default nil)
    dotspacemacs-smartparens-strict-mode nil
    ;; Select a scope to highlight delimiters. Possible values are `any',
    ;; `current', `all' or `nil'. Default is `all' (highlight any scope and
    ;; emphasis the current one). (default 'all)
    dotspacemacs-highlight-delimiters 'all
-   ;; If non nil advises quit functions to keep server open when quitting.
-   ;; (default nil)
    dotspacemacs-persistent-server nil
-   ;; List of search tool executable names. Spacemacs uses the first installed
-   ;; tool of the list. Supported tools are `ag', `pt', `ack' and `grep'.
-   ;; (default '("ag" "pt" "ack" "grep"))
    dotspacemacs-search-tools '("ag" "pt" "ack" "grep")
-   ;; The default package repository used if no explicit repository has been
-   ;; specified with an installed package.
-   ;; Not used for now. (default nil)
    dotspacemacs-default-package-repository nil
-   ;; Delete whitespace while saving buffer. Possible values are `all'
-   ;; to aggressively delete empty line and long sequences of whitespace,
-   ;; `trailing' to delete only the whitespace at end of lines, `changed'to
-   ;; delete only whitespace for changed lines or `nil' to disable cleanup.
-   ;; (default nil)
-   dotspacemacs-whitespace-cleanup nil
-   ;; List of themes, the first of the list is loaded when spacemacs starts.
-   ;; Press <SPC> T n to cycle to the next theme in the list (works great
-   ;; with 2 themes variants, one dark and one light)
-   dotspacemacs-themes '(monokai
-                         darktooth
-                         solarized-light)))
+   dotspacemacs-whitespace-cleanup 'all
+   dotspacemacs-themes '(monokai ; <SPC> T n
+                         ;; solarized-light
+                         farmhouse-light
+                         )))
 ;; ************************
 ;; END OF dotspacemacs/init
 ;; ************************
@@ -295,10 +181,13 @@ executes.
 before packages are loaded. If you are unsure, you should try in setting them in
 `dotspacemacs/user-config' first."
   (setq-default evil-search-module 'evil-search)
+  (let ((default-directory  "/home/daniel/.emacs.d/private/site-lisp"))
+    (normal-top-level-add-subdirs-to-load-path))
   (load-file (let ((coding-system-for-read 'utf-8))
                (shell-command-to-string "agda-mode locate")))
-  (add-to-list 'load-path (expand-file-name "private/local/pollen-mode" user-emacs-directory))
-  (autoload 'pollen-mode "pollen" "A major mode for the pollen preprocessor." t))
+  (require 'reddit)
+  (load-file "~/.emacs.d/private/site-lisp/emacs-farmhouse-theme/farmhouse-theme-common.el")
+  (load-file "~/.emacs.d/private/site-lisp/emacs-farmhouse-theme/farmhouse-light-theme.el"))
 ;; ****************************
 ;; END OF dotspacemacs/user-init
 ;; ****************************
@@ -319,11 +208,20 @@ you should place your code here."
                 intero-package-version "0.1.20"
                 web-mode-markup-indent-offset 2
                 web-mode-css-indent-offset 2
-                web-mode-code-indent-offset 2)
+                web-mode-code-indent-offset 2
+                org-agenda-files '("/keybase/private/daantjie/organiser.org")
+                org-todo-keywords '((sequence "TODO(t)" "NEXT(n)" "|" "DONE(d)")
+                                    (sequence "WAITING(w@/!)" "HOLD(h@/!)" "|"
+                                              "CANCELLED(c@/!)"
+                                              "PHONE"
+                                              "MEETING"
+                                              "EMAIL")))
 
-  (load-file "~/.emacs.d/private/local/bedlam/bedlam.el")
-  (load-file "~/.emacs.d/private/local/evil-hardcore/evil-hardcore.el")
-  (load-file "~/.emacs.d/private/local/proof-general/generic/proof-site.el")
+
+
+  (load-file "~/.emacs.d/private/site-lisp/bedlam/bedlam.el")
+  (load-file "~/.emacs.d/private/site-lisp/evil-hardcore/evil-hardcore.el")
+  (load-file "~/.emacs.d/private/site-lisp/proof-general/generic/proof-site.el")
 
   (yas-global-mode)
 
@@ -335,10 +233,10 @@ you should place your code here."
   (daio/bind "C-%" 'bedlam-insert-date)
   ;; (daio/bind "C-h" 'spacemacs/toggle-holy-mode)
 
-  (evil-hardcore-global-mode)
+  ;; (evil-hardcore-global-mode)
 
   (defun daio/new-private-package (name)
-    (find-file (f-join (f-long user-emacs-directory) "private" "local" name)))
+    (find-file (f-join (f-long user-emacs-directory) "private" "site-lisp" name)))
 
   (defun ido-find-file-recentf ()
     "Use `ido-completing-read' to \\[find-file] a recent file"
@@ -365,7 +263,7 @@ you should place your code here."
                        "\n")))
       (insert pre s "\n" pre)))
 
-  (bedlam-add-hooks ; LISPS
+  (bedlam-add-hooks                     ; LISPS
       (emacs-lisp-mode-hook
        lisp-mode-hook
        (scheme-mode-hook
@@ -422,12 +320,129 @@ you should place your code here."
             (set-buffer-modified-p nil))))))
   (spacemacs/set-leader-keys "fm" #'daio/rename-file-and-buffer)
 
+  ;; XXX should be in a lexical file
+  (defun daio/file-jumper (filename)
+    (lexical-let ((filename filename))
+      (lambda ()
+        (interactive)
+        (find-file filename))))
+
+  (spacemacs/set-leader-keys
+    "oo" (daio/file-jumper "/keybase/private/daantjie/organiser.org"))
+
+  (setq org-refile-targets '((org-agenda-files . (:maxlevel . 6))))
+
+  ;; XXX should be a minor mode (called ð, no doubt)
   (defun daio/org-meta-return (orig)
     (evil-force-normal-state)
     (org-end-of-line)
     (funcall orig)
     (evil-append 1))
   (advice-add 'org-meta-return :around 'daio/org-meta-return)
+  ;; Do not dim blocked tasks
+  (setq org-agenda-dim-blocked-tasks nil)
+
+  ;; Compact the block agenda view
+  (setq org-agenda-compact-blocks t)
+
+  ;; Custom agenda command definitions
+  (setq org-agenda-custom-commands
+        (quote (("N" "Notes" tags "NOTE"
+                 ((org-agenda-overriding-header "Notes")
+                  (org-tags-match-list-sublevels t)))
+                ("h" "Habits" tags-todo "STYLE=\"habit\""
+                 ((org-agenda-overriding-header "Habits")
+                  (org-agenda-sorting-strategy
+                   '(todo-state-down effort-up category-keep))))
+                (" " "Agenda"
+                 ((agenda "" nil)
+                  (tags "REFILE"
+                        ((org-agenda-overriding-header "Tasks to Refile")
+                         (org-tags-match-list-sublevels nil)))
+                  (tags-todo "-CANCELLED/!"
+                             ((org-agenda-overriding-header "Stuck Projects")
+                              (org-agenda-skip-function 'bh/skip-non-stuck-projects)
+                              (org-agenda-sorting-strategy
+                               '(category-keep))))
+                  (tags-todo "-HOLD-CANCELLED/!"
+                             ((org-agenda-overriding-header "Projects")
+                              (org-agenda-skip-function 'bh/skip-non-projects)
+                              (org-tags-match-list-sublevels 'indented)
+                              (org-agenda-sorting-strategy
+                               '(category-keep))))
+                  (tags-todo "-CANCELLED/!NEXT"
+                             ((org-agenda-overriding-header (concat "Project Next Tasks"
+                                                                    (if bh/hide-scheduled-and-waiting-next-tasks
+                                                                        ""
+                                                                      " (including WAITING and SCHEDULED tasks)")))
+                              (org-agenda-skip-function 'bh/skip-projects-and-habits-and-single-tasks)
+                              (org-tags-match-list-sublevels t)
+                              (org-agenda-todo-ignore-scheduled bh/hide-scheduled-and-waiting-next-tasks)
+                              (org-agenda-todo-ignore-deadlines bh/hide-scheduled-and-waiting-next-tasks)
+                              (org-agenda-todo-ignore-with-date bh/hide-scheduled-and-waiting-next-tasks)
+                              (org-agenda-sorting-strategy
+                               '(todo-state-down effort-up category-keep))))
+                  (tags-todo "-REFILE-CANCELLED-WAITING-HOLD/!"
+                             ((org-agenda-overriding-header (concat "Project Subtasks"
+                                                                    (if bh/hide-scheduled-and-waiting-next-tasks
+                                                                        ""
+                                                                      " (including WAITING and SCHEDULED tasks)")))
+                              (org-agenda-skip-function 'bh/skip-non-project-tasks)
+                              (org-agenda-todo-ignore-scheduled bh/hide-scheduled-and-waiting-next-tasks)
+                              (org-agenda-todo-ignore-deadlines bh/hide-scheduled-and-waiting-next-tasks)
+                              (org-agenda-todo-ignore-with-date bh/hide-scheduled-and-waiting-next-tasks)
+                              (org-agenda-sorting-strategy
+                               '(category-keep))))
+                  (tags-todo "-REFILE-CANCELLED-WAITING-HOLD/!"
+                             ((org-agenda-overriding-header (concat "Standalone Tasks"
+                                                                    (if bh/hide-scheduled-and-waiting-next-tasks
+                                                                        ""
+                                                                      " (including WAITING and SCHEDULED tasks)")))
+                              (org-agenda-skip-function 'bh/skip-project-tasks)
+                              (org-agenda-todo-ignore-scheduled bh/hide-scheduled-and-waiting-next-tasks)
+                              (org-agenda-todo-ignore-deadlines bh/hide-scheduled-and-waiting-next-tasks)
+                              (org-agenda-todo-ignore-with-date bh/hide-scheduled-and-waiting-next-tasks)
+                              (org-agenda-sorting-strategy
+                               '(category-keep))))
+                  (tags-todo "-CANCELLED+WAITING|HOLD/!"
+                             ((org-agenda-overriding-header (concat "Waiting and Postponed Tasks"
+                                                                    (if bh/hide-scheduled-and-waiting-next-tasks
+                                                                        ""
+                                                                      " (including WAITING and SCHEDULED tasks)")))
+                              (org-agenda-skip-function 'bh/skip-non-tasks)
+                              (org-tags-match-list-sublevels nil)
+                              (org-agenda-todo-ignore-scheduled bh/hide-scheduled-and-waiting-next-tasks)
+                              (org-agenda-todo-ignore-deadlines bh/hide-scheduled-and-waiting-next-tasks)))
+                  (tags "-REFILE/"
+                        ((org-agenda-overriding-header "Tasks to Archive")
+                         (org-agenda-skip-function 'bh/skip-non-archivable-tasks)
+                         (org-tags-match-list-sublevels nil))))
+                 nil))))
+
+  (setq bh/hide-scheduled-and-waiting-next-tasks t)
+
+  (defun bh/skip-non-archivable-tasks ()
+    "Skip trees that are not available for archiving"
+    (save-restriction
+      (widen)
+      ;; Consider only tasks with done todo headings as archivable candidates
+      (let ((next-headline (save-excursion (or (outline-next-heading) (point-max))))
+            (subtree-end (save-excursion (org-end-of-subtree t))))
+        (if (member (org-get-todo-state) org-todo-keywords-1)
+            (if (member (org-get-todo-state) org-done-keywords)
+                (let* ((daynr (string-to-int (format-time-string "%d" (current-time))))
+                       (a-month-ago (* 60 60 24 (+ daynr 1)))
+                       (last-month (format-time-string "%Y-%m-" (time-subtract (current-time) (seconds-to-time a-month-ago))))
+                       (this-month (format-time-string "%Y-%m-" (current-time)))
+                       (subtree-is-current (save-excursion
+                                             (forward-line 1)
+                                             (and (< (point) subtree-end)
+                                                  (re-search-forward (concat last-month "\\|" this-month) subtree-end t)))))
+                  (if subtree-is-current
+                      subtree-end ; Has a date in this month or last month, skip it
+                    nil))  ; available to archive
+              (or subtree-end (point-max)))
+          next-headline))))
 
   (defun daio/wrap-end (char)
     (interactive "c")
@@ -464,7 +479,7 @@ you should place your code here."
                         :weight 'normal
                         :height 1.0))
 
-  ;;; MAKING ELISP BETTER
+;;; MAKING ELISP BETTER
 
   (gv-define-setter plist-get (val plist prop) `(plist-put ,plist ,prop ,val))
 
@@ -493,6 +508,13 @@ you should place your code here."
 
   ;; (daio/bind "C-$" 'daio/read-last-sexp-and-set-to)
 
+  (defmacro daio/with-sparse-keymap (&rest body)
+    (declare (indent 0))
+    (let ((mapvar (make-symbol "*map*")))
+      `(let ((,mapvar (make-sparse-keymap)))
+         ,@body
+         ,mapvar)))
+
   (defun daio/haskell-o ()
     (interactive)
     (end-of-line)
@@ -504,7 +526,7 @@ you should place your code here."
       (evil-define-key 'normal map "o" 'daio/haskell-o)
       (daio/bind "M-s-." 'daio/insert-angle-pair)
       map))
-  
+
   (evil-leader/set-key-for-mode 'haskell-mode "i" 'hindent-reformat-buffer)
 
   (define-minor-mode daio/haskell-mode
@@ -585,15 +607,16 @@ you should place your code here."
     ("o" ?\◊)
     ("." ?\•)))
 
+  ;; XXX should be in a lexical file
   (defun daio/bind-char (keys char)
     (lexical-let ((char char))
-        (daio/bind keys (lambda () (interactive) (insert char)))))
+      (daio/bind keys (lambda () (interactive) (insert char)))))
 
-  (daio/bind-char "C-s-l" "\u03bb") ; λ lambda
-  (daio/bind-char "C-s-f" "\u0192") ; ƒ function
+  (daio/bind-char "C-s-l" "\u03bb")     ; λ lambda
+  (daio/bind-char "C-s-f" "\u0192")     ; ƒ function
   ;; (daio/bind-char "C-s--" "\u2192") ; → right arrow
-  (daio/bind-char "C-s-a" "\u03b1") ; α alpha
-  (daio/bind-char "C-s-y" "\u03c8") ; ψ psi
+  (daio/bind-char "C-s-a" "\u03b1")     ; α alpha
+  (daio/bind-char "C-s-y" "\u03c8")     ; ψ psi
 
   (daio/bind-char "s-C-o" ?\◊)
   (daio/bind-char "s-C-." ?\•)
@@ -617,13 +640,23 @@ you should place your code here."
               (message (one-or-more not-newline)
                        (zero-or-more "\n" (any " ") (one-or-more not-newline)))
               line-end))
-    :modes (text-mode markdown-mode gfm-mode))
+    :modes (text-mode markdown-mode gfm-mode pollen-mode))
   (add-to-list 'flycheck-checkers 'proselint)
 
 
   (add-to-list 'emacs-lisp-mode-hook 'daio/pretty-functional)
   ;; (add-to-list 'emacs-lisp-mode-hook (lambda ()
   ;;                                      (require 'buttercup)))
+
+  (defmacro binary->nary (name fn &rest initial-args)
+    `(defmacro ,name (&rest bindings)
+       `(let (forms)
+          (while bindings
+            (let ((x (pop bindings))
+                  (y (pop bindings)))
+              `(fn ,,@initial-args x y))))))
+
+  (binary->nary daio/binds daio/bind)
 
 ;;; color these functions like keywords
   (font-lock-add-keywords 'emacs-lisp-mode
@@ -675,7 +708,7 @@ you should place your code here."
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(ansi-color-names-vector
-   ["#32302F" "#FB4934" "#B8BB26" "#FABD2F" "#83A598" "#D3869B" "#17CCD5" "#EBDBB2"])
+   ["#ede9e7" "#ef001b" "#8cc610" "#eea806" "#23cbfe" "#ec3691" "#1ee079" "#272b34"])
  '(compilation-message-face (quote default))
  '(evil-want-Y-yank-to-eol t)
  '(fci-rule-color "#20240E")
@@ -693,7 +726,7 @@ you should place your code here."
  '(magit-diff-use-overlays nil)
  '(package-selected-packages
    (quote
-    (feature-mode vertigo lispy zoutline swiper ivy scribble-mode web-mode tagedit slim-mode scss-mode sass-mode pug-mode less-css-mode helm-css-scss haml-mode emmet-mode phpunit phpcbf php-extras php-auto-yasnippets drupal-mode php-mode sage-shell-mode deferred idris-mode prop-menu solarized-theme darktooth-theme company-coq company-math math-symbol-lists auctex-latexmk auctex yaml-mode selectric-mode vimrc-mode dactyl-mode slime-company hide-comnt pollen-mode w3m eval-sexp-fu xterm-color ws-butler window-numbering which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org sx spray speed-type spacemacs-theme spaceline smex smeargle slime slack shell-pop restart-emacs ranger rainbow-mode rainbow-identifiers rainbow-delimiters quelpa popwin persp-mode pcre2el paradox orgit org-projectile org-present org-pomodoro org-plus-contrib org-download org-bullets open-junk-file neotree nameless multi-term move-text monokai-theme mmm-mode minesweeper markdown-toc magit-gitflow lorem-ipsum linum-relative link-hint lentic intero info+ indent-guide ido-vertical-mode icicles hungry-delete htmlize hlint-refactor hl-todo hindent highlight-parentheses highlight-numbers highlight-indentation help-fns+ helm-themes helm-swoop helm-projectile helm-mode-manager helm-make helm-hoogle helm-gitignore helm-flx helm-descbinds helm-ag haskell-snippets google-translate golden-ratio gnuplot gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link gh-md geiser flycheck-pos-tip flycheck-haskell flx-ido fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-snipe evil-search-highlight-persist evil-paredit evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-magit evil-lisp-state evil-indent-plus evil-iedit-state evil-exchange evil-escape evil-ediff evil-args evil-anzu eshell-z eshell-prompt-extras esh-help erc-yt erc-view-log erc-social-graph erc-image erc-hl-nicks elisp-slime-nav dumb-jump define-word dash-functional company-ghci company-ghc column-enforce-mode color-identifiers-mode cmm-mode clean-aindent-mode cask-mode buttercup auto-highlight-symbol auto-compile anaphora aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line)))
+    (yapfify pyvenv pytest pyenv-mode py-isort pip-requirements live-py-mode hy-mode helm-pydoc cython-mode anaconda-mode pythonic company-pollen tree-mode web-beautify livid-mode skewer-mode simple-httpd json-mode json-snatcher json-reformat js2-refactor multiple-cursors js2-mode js-doc coffee-mode evil-lispy feature-mode vertigo lispy zoutline swiper ivy scribble-mode web-mode tagedit slim-mode scss-mode sass-mode pug-mode less-css-mode helm-css-scss haml-mode emmet-mode phpunit phpcbf php-extras php-auto-yasnippets drupal-mode php-mode sage-shell-mode deferred idris-mode prop-menu solarized-theme darktooth-theme company-coq company-math math-symbol-lists auctex-latexmk auctex yaml-mode selectric-mode vimrc-mode dactyl-mode slime-company hide-comnt pollen-mode w3m eval-sexp-fu xterm-color ws-butler window-numbering which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org sx spray speed-type spacemacs-theme spaceline smex smeargle slime slack shell-pop restart-emacs ranger rainbow-mode rainbow-identifiers rainbow-delimiters quelpa popwin persp-mode pcre2el paradox orgit org-projectile org-present org-pomodoro org-plus-contrib org-download org-bullets open-junk-file neotree nameless multi-term move-text monokai-theme mmm-mode minesweeper markdown-toc magit-gitflow lorem-ipsum linum-relative link-hint lentic intero info+ indent-guide ido-vertical-mode icicles hungry-delete htmlize hlint-refactor hl-todo hindent highlight-parentheses highlight-numbers highlight-indentation help-fns+ helm-themes helm-swoop helm-projectile helm-mode-manager helm-make helm-hoogle helm-gitignore helm-flx helm-descbinds helm-ag haskell-snippets google-translate golden-ratio gnuplot gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link gh-md geiser flycheck-pos-tip flycheck-haskell flx-ido fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-snipe evil-search-highlight-persist evil-paredit evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-magit evil-lisp-state evil-indent-plus evil-iedit-state evil-exchange evil-escape evil-ediff evil-args evil-anzu eshell-z eshell-prompt-extras esh-help erc-yt erc-view-log erc-social-graph erc-image erc-hl-nicks elisp-slime-nav dumb-jump define-word dash-functional company-ghci company-ghc column-enforce-mode color-identifiers-mode cmm-mode clean-aindent-mode cask-mode buttercup auto-highlight-symbol auto-compile anaphora aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line)))
  '(pos-tip-background-color "#36473A")
  '(pos-tip-foreground-color "#FFFFC8")
  '(vc-annotate-background nil)
