@@ -9,6 +9,7 @@ SAVEHIST=1000
 setopt appendhistory autocd extendedglob nomatch notify
 unsetopt beep
 bindkey -v
+bindkey '^R' history-incremental-search-backward
 # End of lines configured by zsh-newuser-install
 # The following lines were added by compinstall
 zstyle :compinstall filename '/home/daniel/.zshrc'
@@ -58,7 +59,7 @@ export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
 export XDG_CONFIG_HOME="$HOME/.config/"
 
 export ALTERNATE_EDITOR=""
-export EDITOR=emacsclient
+export EDITOR=nvim
 
 ###########
 # functions
